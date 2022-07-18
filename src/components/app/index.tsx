@@ -1,5 +1,3 @@
-import { SigninButton } from '@/components';
-
 export function App() {
-  return <SigninButton />;
+  return <div className='text-2xl'>Привет мир</div>;
 }
