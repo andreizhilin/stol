@@ -8,18 +8,13 @@ cache:
 
 before_script:  
   - apt-get update -qq && apt-get install
+  - yarn install
 
 stages:
-  - setup
   - lint
   - test
   - build
   - deploy
-
-Setup:
-  stage: setup
-  script:
-    - yarn install
 
 Linting:
   stage: lint
@@ -43,11 +38,14 @@ Build:
     - yarn build
   artifacts:
     paths:
-      - 'dist'
+      - dist/
 
 Deploy Prod:
   stage: deploy
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  needs:
+    - job: Build
+      artifacts: true
   script:
     - yarn deploy
   only:
