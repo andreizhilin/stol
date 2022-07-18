@@ -1,12 +1,15 @@
 import { useCallback } from 'react';
 
 import { Checkbox } from '@/components';
+import { useLocalization } from '@/features';
 
 import { useGetNotesSettingsQuery, useUpdateNotesSettingsMutation } from './api';
+import { notesLocalizationDictionary } from './localization-dictionary';
 
 export function NotepadSettingsWidget() {
   const { data: notesSettings, isFetching } = useGetNotesSettingsQuery();
   const [updateSettings, { isLoading: isUpdating }] = useUpdateNotesSettingsMutation();
+  const { t } = useLocalization(notesLocalizationDictionary);
 
   const handleAutoSaveChange = useCallback(
     (isAutoSaveEnabled: boolean) => {
@@ -18,7 +21,6 @@ export function NotepadSettingsWidget() {
     [updateSettings, notesSettings],
   );
 
-  // TODO: Localization
   return (
     <div data-test='isAutoSaveEnabled'>
       <Checkbox
@@ -26,7 +28,7 @@ export function NotepadSettingsWidget() {
         isChecked={notesSettings?.isAutoSaveEnabled}
         onChange={handleAutoSaveChange}
       >
-        Auto save
+        {t('AutoSave')}
       </Checkbox>
     </div>
   );

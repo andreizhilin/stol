@@ -7,11 +7,14 @@ import {
   NotepadSettingsWidget,
   SettingsLayout,
   SigninPage,
+  useLocalization,
 } from '@/features';
 
 import { ProtectedRoute } from './protected-route';
 
 export function NavigationRouter() {
+  useLocalization();
+
   return (
     <Router>
       <Routes>

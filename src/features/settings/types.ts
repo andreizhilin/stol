@@ -1,7 +1,8 @@
-import { NotesSettings } from '@/features';
+import { NotesSettings, LocalizationSettings } from '@/features';
 
 export type Settings = {
   notes: NotesSettings;
+  localization: LocalizationSettings;
 };
 
 export type GetSettingsResponse = {

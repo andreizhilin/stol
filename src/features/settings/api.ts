@@ -14,7 +14,7 @@ export const settingsApi = createApi({
       transformResponse: (response: GetSettingsResponse) => JSON.parse(response.data ?? '{}'),
       providesTags: () => [{ type: 'Settings' }],
     }),
-    updateSettings: builder.mutation<Settings, Settings>({
+    updateSettings: builder.mutation<Settings, Partial<Settings>>({
       query: settings => ({
         url: 'settings',
         method: 'POST',

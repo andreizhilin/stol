@@ -39,7 +39,7 @@ export function useGetNotesSettingsQuery() {
   };
 }
 export function useUpdateNotesSettingsMutation() {
-  const { data: settings } = useGetNotesSettingsQuery();
+  const { data: settings } = useGetSettingsQuery();
   const [updateSettings, result] = useUpdateSettingsMutation();
 
   const updateNotesSettings = (notesSettings: NotesSettings) => {
