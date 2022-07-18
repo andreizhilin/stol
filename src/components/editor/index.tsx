@@ -13,7 +13,11 @@ type Props = {
   onPressCtrlS?: () => void;
 };
 
-const EMPTY_EDITOR_VALUE = { blocks: [] };
+const EMPTY_EDITOR_VALUE = {
+  time: 1654922109475,
+  blocks: [{ id: 'blQR-e8Du6', type: 'paragraph', data: { text: '' } }],
+  version: '2.24.3',
+};
 
 export function Editor({ value, onChange, onPressCtrlS }: Props) {
   const [isReady, setIsReady] = useState(false);
