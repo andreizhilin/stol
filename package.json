@@ -29,6 +29,7 @@
     "@atlaskit/toggle": "^12.4.8",
     "@editorjs/checklist": "^1.3.0",
     "@editorjs/editorjs": "^2.24.3",
+    "@editorjs/image": "^2.6.2",
     "@editorjs/link": "^2.4.1",
     "@editorjs/paragraph": "^2.8.0",
     "@reduxjs/toolkit": "^1.8.2",

@@ -2,6 +2,7 @@ import React, { KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef } 
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import CheckList from '@editorjs/checklist';
 import Link from '@editorjs/link';
+import ImageTool from '@editorjs/image';
 
 import './index.css';
 
@@ -61,6 +62,14 @@ export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
       tools: {
         checkList: CheckList,
         link: Link,
+        image: {
+          class: ImageTool,
+          config: {
+            endpoints: {
+              byFile: '/api/files',
+            },
+          },
+        },
       },
     });
   }, [content, handleChange, id, onReady]);
