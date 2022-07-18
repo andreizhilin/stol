@@ -20,6 +20,18 @@ export const settingsApi = createApi({
         method: 'POST',
         body: settings,
       }),
+      async onQueryStarted(settings, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          settingsApi.util.updateQueryData('getSettings', undefined, draft => {
+            Object.assign(draft, settings);
+          }),
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
       invalidatesTags: () => [{ type: 'Settings' }],
     }),
   }),
