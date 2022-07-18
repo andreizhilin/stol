@@ -2,8 +2,6 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 
-dayjs.locale('ru');
-
 describe('notepad datepicker', () => {
   const today = dayjs().toDate();
   const tomorrow = dayjs().add(1, 'day').toDate();
@@ -25,7 +23,7 @@ describe('notepad datepicker', () => {
   });
 
   it('should clear unsaved note', () => {
-    cy.contains(dayjs(today).format('D MMMM YYYY'));
+    cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -37,7 +35,7 @@ describe('notepad datepicker', () => {
     cy.get('@nextDateButton').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.contains(dayjs(tomorrow).format('D MMMM YYYY'));
+    cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');
@@ -45,14 +43,14 @@ describe('notepad datepicker', () => {
     cy.get('@prevDateButton').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.contains(dayjs(today).format('D MMMM YYYY'));
+    cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');
   });
 
   it('should keep saved changes', () => {
-    cy.contains(dayjs(today).format('D MMMM YYYY'));
+    cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -70,7 +68,7 @@ describe('notepad datepicker', () => {
     cy.get('@nextDateButton').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.contains(dayjs(tomorrow).format('D MMMM YYYY'));
+    cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');
@@ -78,14 +76,14 @@ describe('notepad datepicker', () => {
     cy.get('@prevDateButton').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.contains(dayjs(today).format('D MMMM YYYY'));
+    cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
     cy.contains(note1).should('exist');
     cy.contains(note2).should('not.exist');
   });
 
   it('should keep changes saved on non-default date', () => {
-    cy.contains(dayjs(today).format('D MMMM YYYY'));
+    cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -93,12 +91,12 @@ describe('notepad datepicker', () => {
     cy.get('@nextDateButton').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.contains(dayjs(tomorrow).format('D MMMM YYYY'));
+    cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');
 
-    cy.contains(dayjs(tomorrow).format('D MMMM YYYY'));
+    cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -116,7 +114,7 @@ describe('notepad datepicker', () => {
     cy.get('@prevDateButton').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.contains(dayjs(today).format('D MMMM YYYY'));
+    cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');
@@ -124,7 +122,7 @@ describe('notepad datepicker', () => {
     cy.get('@nextDateButton').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.contains(dayjs(tomorrow).format('D MMMM YYYY'));
+    cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
     cy.contains(note1).should('exist');
     cy.contains(note2).should('not.exist');

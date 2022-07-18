@@ -12,7 +12,7 @@ describe('unauthorized user', () => {
 
   it('should be redirected to signin page from the notepad page', () => {
     cy.visit('https://127.0.0.1:3000/notepad');
-    cy.get('[data-test="notepad-page"]').should('not.exist');
+    cy.get('[data-test="notepad-widget"]').should('not.exist');
     cy.url().should('eq', 'https://127.0.0.1:3000/signin');
   });
 
@@ -21,19 +21,19 @@ describe('unauthorized user', () => {
     cy.get('[data-test="demo-button"]').click();
     cy.url().should('eq', 'https://127.0.0.1:3000/');
     cy.visit('https://127.0.0.1:3000/notepad');
-    cy.get('[data-test="notepad-page"]').should('exist');
+    cy.get('[data-test="notepad-widget"]').should('exist');
     cy.reload();
-    cy.get('[data-test="notepad-page"]').should('exist');
+    cy.get('[data-test="notepad-widget"]').should('exist');
   });
 
   it('should be able to signin', () => {
     cy.visit('https://127.0.0.1:3000/notepad');
-    cy.get('[data-test="notepad-page"]').should('not.exist');
+    cy.get('[data-test="notepad-widget"]').should('not.exist');
     cy.url().should('eq', 'https://127.0.0.1:3000/signin');
     cy.signin();
     cy.visit('https://127.0.0.1:3000/notepad');
-    cy.get('[data-test="notepad-page"]').should('exist');
+    cy.get('[data-test="notepad-widget"]').should('exist');
     cy.reload();
-    cy.get('[data-test="notepad-page"]').should('exist');
+    cy.get('[data-test="notepad-widget"]').should('exist');
   });
 });

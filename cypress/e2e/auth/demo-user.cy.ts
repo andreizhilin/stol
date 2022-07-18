@@ -9,7 +9,9 @@ describe('demo user', () => {
 
   it('should have access to the notepad page', () => {
     cy.visit('https://127.0.0.1:3000/notepad');
-    cy.get('[data-test="notepad-page"]').should('exist');
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
+    cy.get('[data-test="notepad-widget"]').should('exist');
   });
 
   it('should be redirected from signin page to the homepage', () => {
