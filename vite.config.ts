@@ -2,6 +2,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import { fileURLToPath, URL } from 'url';
 import react from '@vitejs/plugin-react';
+import svgr from '@honkhonk/vite-plugin-svgr';
 import mkcert from 'vite-plugin-mkcert';
 
 export default defineConfig(({ mode }) => {
@@ -18,7 +19,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [react(), mkcert()],
+    plugins: [react(), mkcert(), svgr()],
     test: {
       globals: true,
       environment: 'jsdom',
