@@ -1,6 +1,8 @@
-import EditorJS, { OutputData } from '@editorjs/editorjs';
 import { KeyboardEvent, useCallback, useRef } from 'react';
+import EditorJS, { OutputData } from '@editorjs/editorjs';
 import { createReactEditorJS } from 'react-editor-js';
+import CheckList from '@editorjs/checklist';
+import Link from '@editorjs/link';
 
 const ReactEditorJS = createReactEditorJS();
 
@@ -37,6 +39,7 @@ export function Editor({ value, onChange, onPressCtrlS }: Props) {
   return (
     <div onKeyDown={handleKeyDown}>
       <ReactEditorJS
+        tools={{ checkList: CheckList, link: Link }}
         defaultValue={value ? JSON.parse(value) : undefined}
         onInitialize={handleInitialize}
         onChange={handleChange}

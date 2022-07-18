@@ -7,7 +7,7 @@ export function NavigationRouter() {
     <Router>
       <Routes>
         <Route path='/notepad' element={<NotepadPage />} />
-        <Route path='/' element={<div className='text-xl bg-gray-100 w-full p-3'>Home</div>} />
+        <Route path='/' element={<NotepadPage />} />
       </Routes>
     </Router>
   );
