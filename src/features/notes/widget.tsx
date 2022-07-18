@@ -66,9 +66,17 @@ export function NotepadWidget() {
   return (
     <div data-test='notepad-widget' className='flex w-full max-w-screen-md'>
       <div className='w-full p-5 text-lg'>
-        <div className='flex justify-center font-bold md:pb-5'>
-          {isEditorReady && <Datepicker value={selectedDate} onChange={handleDateChange} />}
-          {!isPristine && <SaveButton onClick={saveNote} />}
+        <div className='flex justify-center font-bold pb-5'>
+          {isEditorReady && (
+            <div className='justify-self-center'>
+              <Datepicker value={selectedDate} onChange={handleDateChange} />
+            </div>
+          )}
+          {!isPristine && (
+            <div className='ml-2'>
+              <SaveButton onClick={saveNote} />
+            </div>
+          )}
           {(isUpdating || isFetching) && (
             <div className='ml-2'>
               <Spinner />

@@ -6,7 +6,7 @@ type Props = {
 
 export function SaveButton({ onClick }: Props) {
   return (
-    <div data-test='notepad-save-button' className='ml-2 cursor-pointer' onClick={onClick}>
+    <div data-test='notepad-save-button' className='cursor-pointer' onClick={onClick}>
       <AiFillSave size='24' />
     </div>
   );
