@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { Toggle } from '@/components';
 import { useLocalization } from '@/features';
 
-import { useGetNotesSettingsQuery, useUpdateNotesSettingsMutation } from './api';
+import { useGetNotesSettingsQuery, useUpdateNotesSettingsMutation } from './hooks';
 import { localization } from './localization';
 
 export function NotepadSettingsWidget() {

@@ -3,10 +3,10 @@ import { Locale, LocalizationDictionary } from './types';
 export const localization: LocalizationDictionary = {
   [Locale.En]: {
     English: 'English',
-    Russian: 'Russian',
+    Russian: 'Русский',
   },
   [Locale.Ru]: {
-    English: 'Английский',
+    English: 'English',
     Russian: 'Русский',
   },
 };

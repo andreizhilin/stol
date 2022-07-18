@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { Datepicker, Editor, SaveButton, Spinner } from '@/components';
 import { useInterval } from '@/hooks';
 
-import { useGetNoteByDateQuery, useGetNotesSettingsQuery, useUpdateNoteMutation } from './api';
+import { useGetNoteByDateQuery, useGetNotesSettingsQuery, useUpdateNoteMutation } from './hooks';
 
 const DEFAULT_SELECTED_DATE = new Date();
 const DEFAULT_CHANGED_NOTE = undefined;

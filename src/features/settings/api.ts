@@ -36,5 +36,3 @@ export const settingsApi = createApi({
     }),
   }),
 });
-
-export const { useGetSettingsQuery, useUpdateSettingsMutation } = settingsApi;
