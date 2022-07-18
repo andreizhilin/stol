@@ -20,6 +20,7 @@ describe('notepad datepicker', () => {
 
   afterEach(() => {
     cy.request('DELETE', '/api/notes');
+    cy.request('DELETE', '/api/settings');
   });
 
   it('should clear unsaved note', () => {
@@ -126,5 +127,22 @@ describe('notepad datepicker', () => {
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
     cy.contains(note1).should('exist');
     cy.contains(note2).should('not.exist');
+  });
+
+  it('should be localized', () => {
+    // en locale
+    cy.contains(dayjs(today).format('MMMM D, YYYY')).should('exist');
+    cy.contains(dayjs(today).locale('ru').format('D MMMM YYYY')).should('not.exist');
+
+    // set ru locale
+    cy.visit('https://127.0.0.1:3000/settings/localization');
+    cy.get('[data-test="locale-ru"]').click();
+
+    // ru locale
+    cy.visit('https://127.0.0.1:3000/notepad');
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
+    cy.contains(dayjs(today).format('MMMM D, YYYY')).should('not.exist');
+    cy.contains(dayjs(today).locale('ru').format('D MMMM YYYY')).should('exist');
   });
 });

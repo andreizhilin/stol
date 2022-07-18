@@ -1,10 +1,14 @@
 import { Navigate } from 'react-router-dom';
 
+import { useLocalization } from '@/features';
+
 import { SigninButtonImage } from './assets';
 import { useAuth } from './hooks';
+import { localization } from './localization';
 
 export function SigninWidget() {
   const { isAuthenticated } = useAuth();
+  const { t } = useLocalization(localization);
 
   if (isAuthenticated) {
     return <Navigate to='/' />;
@@ -18,7 +22,7 @@ export function SigninWidget() {
           className='block mb-5 bg-blue-600 cursor-pointer text-white text-center p-4'
           href='/api/authenticate'
         >
-          Демо доступ
+          {t('StartDemo')}
         </a>
         <a
           data-test='signin-button'

@@ -28,4 +28,19 @@ describe('notepad settings', () => {
     cy.reload();
     cy.get('[data-test="isAutoSaveEnabled"] input').should('not.be.checked');
   });
+
+  it('should be localized', () => {
+    // en locale
+    cy.contains('Auto Save').should('exist');
+    cy.contains('Автосохранение').should('not.exist');
+
+    // set ru locale
+    cy.visit('https://127.0.0.1:3000/settings/localization');
+    cy.get('[data-test="locale-ru"]').click();
+
+    // ru locale
+    cy.visit('https://127.0.0.1:3000/settings/notepad');
+    cy.contains('Auto Save').should('not.exist');
+    cy.contains('Автосохранение').should('exist');
+  });
 });

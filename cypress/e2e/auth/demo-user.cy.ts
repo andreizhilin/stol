@@ -4,6 +4,7 @@ describe('demo user', () => {
   beforeEach(() => {
     cy.clearCookies();
     cy.visit('https://127.0.0.1:3000/signin');
+    cy.contains('Start Demo').should('exist');
     cy.get('[data-test="demo-button"]').click();
   });
 
