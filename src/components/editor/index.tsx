@@ -4,6 +4,8 @@ import EditorJS, { OutputData } from '@editorjs/editorjs';
 import CheckList from '@editorjs/checklist';
 import Link from '@editorjs/link';
 
+import './index.css';
+
 const ReactEditorJS = createReactEditorJS();
 
 type Props = {
