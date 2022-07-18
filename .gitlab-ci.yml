@@ -1,20 +1,25 @@
 image: cypress/base:16
 
 cache:
+  untracked: true
+  key: "$CI_BUILD_REF_NAME"
   paths:
     - node_modules/
-    - .yarn
 
 before_script:  
   - apt-get update -qq && apt-get install
-  - yarn config set cache-folder .yarn
-  - yarn install 
 
 stages:
+  - setup
   - lint
   - test
   - build
   - deploy
+
+Setup:
+  stage: setup
+  script:
+    - yarn install
 
 Linting:
   stage: lint
