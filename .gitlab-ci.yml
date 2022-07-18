@@ -1,4 +1,4 @@
-image: cypress/base
+image: cypress/base:16
 
 cache:
   paths:
