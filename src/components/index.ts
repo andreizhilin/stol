@@ -1,4 +1,5 @@
 export * from './app';
+export * from './clock';
 export * from './editor';
 export * from './navigation';
 export * from './page';
