@@ -43,7 +43,7 @@
     "vitest": "^0.14.1"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix --max-warnings 0",
     "*.{js,jsx,ts,tsx,css,md,json}": "prettier --write"
   }
 }
