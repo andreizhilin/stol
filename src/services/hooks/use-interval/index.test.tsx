@@ -26,8 +26,4 @@ describe('useInterval', () => {
     vi.advanceTimersByTime(4000);
     expect(callback).toBeCalledTimes(5);
   });
-
-  it('ci debug remove me', () => {
-    expect(true).toBeFalsy();
-  });
 });
