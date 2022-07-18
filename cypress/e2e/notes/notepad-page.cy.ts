@@ -9,15 +9,25 @@ describe('notepad', () => {
   const noteLine2 = 'How are you?';
 
   beforeEach(() => {
+    cy.signin();
     cy.visit('https://127.0.0.1:3000/notepad');
+    cy.intercept('/api/note*').as('getNote');
+    cy.wait('@getNote');
     cy.get('[data-test="notepad-page"]').as('notepadPage');
-    cy.get('[data-test="notepad-page"] .ce-block').last().as('editor');
     cy.get('[data-test="prev-date-button"]').last().as('prevDateButton');
     cy.get('[data-test="next-date-button"]').last().as('nextDateButton');
   });
 
+  after(() => {
+    cy.request('DELETE', '/api/note', { date: new Date() });
+  });
+
   it('should be editable', () => {
-    cy.get('@editor').click().type(`${noteLine1}{enter}`).type(`${noteLine2}{enter}`);
+    cy.get('[data-test="notepad-page"] .ce-block')
+      .last()
+      .click()
+      .type(`${noteLine1}{enter}`)
+      .type(`${noteLine2}{enter}`);
     cy.get('@notepadPage').contains(noteLine1);
     cy.get('@notepadPage').contains(noteLine2);
   });
@@ -28,20 +38,20 @@ describe('notepad', () => {
 
   it('should highlight that user has unsaved changes', () => {
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
-    cy.get('@editor').click().type(`${noteLine1}{enter}`);
+    cy.get('[data-test="notepad-page"] .ce-block').last().click().type(`${noteLine1}{enter}`);
     cy.get('@notepadPage').contains(noteLine1);
     cy.get('[data-test="notepad-save-button"]').should('exist');
     cy.get('[data-test="notepad-save-button"]').click();
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
-    cy.get('@editor').click().type(`${noteLine2}{enter}`);
+    cy.get('[data-test="notepad-page"] .ce-block').last().click().type(`${noteLine2}{enter}`);
     cy.get('@notepadPage').contains(noteLine2);
     cy.get('[data-test="notepad-save-button"]').should('exist');
-    cy.get('@editor').click().type(`{ctrl+s}`);
+    cy.get('[data-test="notepad-page"] .ce-block').last().click().type(`{ctrl+s}`);
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
   });
 
   it('should save data on the backend side', () => {
-    cy.get('@editor').click().type(`${noteLine1}{enter}`);
+    cy.get('[data-test="notepad-page"] .ce-block').last().click().type(`${noteLine1}{enter}`);
     cy.get('@notepadPage').contains(noteLine1);
     cy.get('[data-test="notepad-save-button"]').should('exist');
     cy.get('[data-test="notepad-save-button"]').click();
@@ -49,7 +59,7 @@ describe('notepad', () => {
     cy.reload();
     cy.get('@notepadPage').contains(noteLine1);
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
-    cy.get('@editor').click().type(`${noteLine2}{enter}`).type('{ctrl+s}');
+    cy.get('[data-test="notepad-page"] .ce-block').last().click().type(`${noteLine2}{enter}`).type('{ctrl+s}');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
     cy.reload();
     cy.get('@notepadPage').contains(noteLine2);

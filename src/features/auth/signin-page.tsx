@@ -16,7 +16,7 @@ export function SigninPage() {
         <a
           data-test='demo-button'
           className='block mb-5 bg-blue-600 cursor-pointer text-white text-center p-4'
-          href='/api/authenticated'
+          href='/api/authenticate'
         >
           Демо доступ
         </a>
