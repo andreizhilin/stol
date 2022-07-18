@@ -19,6 +19,7 @@ describe('notepad', () => {
 
   afterEach(() => {
     cy.request('DELETE', '/api/notes');
+    cy.request('DELETE', '/api/settings');
   });
 
   it('should save empty note', () => {
@@ -185,5 +186,21 @@ describe('notepad', () => {
     cy.get('@notepadWidget').contains(note2).should('exist');
     cy.get('@notepadWidget').contains(note3).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
+  });
+
+  it('should support dark mode', () => {
+    // white theme
+    cy.visit('https://127.0.0.1:3000/notepad');
+    cy.get('[data-test="notepad-widget"]').should('have.css', 'color', 'rgb(0, 0, 0)');
+
+    // set dark theme
+    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.get('[data-test="isDarkMode"] label').click();
+
+    // dark theme
+    cy.visit('https://127.0.0.1:3000/notepad');
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
+    cy.get('[data-test="notepad-widget"]').should('have.css', 'color', 'rgb(255, 255, 255)');
   });
 });

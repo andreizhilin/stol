@@ -63,4 +63,62 @@ describe('common settings', () => {
     cy.contains('Язык').should('not.exist');
     cy.contains('Блокнот').should('not.exist');
   });
+
+  it('should show disabled dark mode by default', () => {
+    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.get('[data-test="isDarkMode"] input').should('not.be.checked');
+    cy.get('.dark').should('not.exist');
+  });
+
+  it('should allow to switch dark mode back and forth', () => {
+    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.get('[data-test="isDarkMode"] input').should('not.be.checked');
+    cy.get('[data-test="isDarkMode"] label').click();
+    cy.get('[data-test="isDarkMode"] input').should('be.checked');
+    cy.get('.dark').should('exist');
+    cy.reload();
+    cy.get('[data-test="isDarkMode"] input').should('be.checked');
+    cy.get('.dark').should('exist');
+    cy.get('[data-test="isDarkMode"] label').click();
+    cy.get('[data-test="isDarkMode"] input').should('not.be.checked');
+    cy.get('.dark').should('not.exist');
+    cy.reload();
+    cy.get('[data-test="isDarkMode"] input').should('not.be.checked');
+    cy.get('.dark').should('not.exist');
+  });
+
+  it('should be localized', () => {
+    // en locale
+    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.contains('Dark Mode').should('exist');
+    cy.contains('Тёмная тема').should('not.exist');
+
+    // set ru locale
+    cy.visit('https://127.0.0.1:3000/settings/localization');
+    cy.get('[data-test="locale-ru"]').click();
+
+    // ru locale
+    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.contains('Dark Mode').should('not.exist');
+    cy.contains('Тёмная тема').should('exist');
+  });
+
+  it('should support dark mode', () => {
+    // white theme
+    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.get('[data-test="isDarkMode"]').should('have.css', 'color', 'rgb(0, 0, 0)');
+    cy.visit('https://127.0.0.1:3000/settings/localization');
+    cy.get('[data-test="locale-ru"]').should('have.css', 'color', 'rgb(0, 0, 0)');
+    cy.get('[data-test="locale-en"]').should('have.css', 'color', 'rgb(0, 0, 0)');
+
+    // set dark theme
+    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.get('[data-test="isDarkMode"] label').click();
+
+    // dark theme
+    cy.get('[data-test="isDarkMode"]').should('have.css', 'color', 'rgb(255, 255, 255)');
+    cy.visit('https://127.0.0.1:3000/settings/localization');
+    cy.get('[data-test="locale-ru"]').should('have.css', 'color', 'rgb(255, 255, 255)');
+    cy.get('[data-test="locale-en"]').should('have.css', 'color', 'rgb(255, 255, 255)');
+  });
 });

@@ -43,4 +43,18 @@ describe('notepad settings', () => {
     cy.contains('Auto Save').should('not.exist');
     cy.contains('Автосохранение').should('exist');
   });
+
+  it('should support dark mode', () => {
+    // white theme
+    cy.visit('https://127.0.0.1:3000/settings/notepad');
+    cy.get('[data-test="isAutoSaveEnabled"]').should('have.css', 'color', 'rgb(0, 0, 0)');
+
+    // set dark theme
+    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.get('[data-test="isDarkMode"] label').click();
+
+    // dark theme
+    cy.visit('https://127.0.0.1:3000/settings/notepad');
+    cy.get('[data-test="isAutoSaveEnabled"]').should('have.css', 'color', 'rgb(255, 255, 255)');
+  });
 });

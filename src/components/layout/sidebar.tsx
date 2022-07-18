@@ -6,8 +6,8 @@ import { IoMdCog } from 'react-icons/io';
 
 export function Sidebar() {
   return (
-    <div className='flex w-full justify-between border-r md:w-auto md:flex-col sticky top-0 h-screen'>
-      <Link to='/' className='p-5 border-b'>
+    <div className='flex w-full justify-between border-r md:w-auto md:flex-col sticky top-0 h-screen dark:border-gray-700'>
+      <Link to='/' className='p-5 border-b dark:border-gray-700'>
         <TbGridDots size='24' />
       </Link>
       <div className='p-5 flex md:flex-col'>

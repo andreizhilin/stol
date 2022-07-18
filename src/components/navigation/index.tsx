@@ -8,6 +8,7 @@ import {
   SigninWidget,
   useLocalization,
   LocalizationSettingsWidget,
+  AppearanceSettingsWidget,
 } from '@/features';
 
 import { ProtectedRoute } from './protected-route';
@@ -37,6 +38,16 @@ export function NavigationRouter() {
         />
         {/* Settings */}
         <Route path='/settings' element={<Navigate to='/settings/notepad' />} />
+        <Route
+          path='/settings/appearance'
+          element={
+            <ProtectedRoute>
+              <SettingsLayout>
+                <AppearanceSettingsWidget />
+              </SettingsLayout>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path='/settings/localization'
           element={

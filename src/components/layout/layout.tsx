@@ -9,7 +9,7 @@ type Props = {
 
 export function Layout({ children }: Props) {
   return (
-    <div className='flex flex-col min-h-screen md:flex-row'>
+    <div className='flex flex-col min-h-screen md:flex-row dark:bg-gray-900 dark:text-white'>
       <Sidebar />
       <div className='w-full'>
         <Header />
