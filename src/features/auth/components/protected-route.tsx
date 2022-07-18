@@ -1,7 +1,6 @@
 import { Navigate } from 'react-router-dom';
 
 import { useAuth } from '@/features';
-import { Layout } from '@/components';
 
 type Props = {
   children: JSX.Element;
@@ -15,7 +14,7 @@ export function ProtectedRoute({ children }: Props) {
   }
 
   if (isAuthenticated) {
-    return <Layout>{children}</Layout>;
+    return children;
   }
 
   return <Navigate to='/signin' replace />;

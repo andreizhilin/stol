@@ -8,7 +8,7 @@ type Props = {
   onChange?: (isChecked: boolean) => void;
 };
 
-export function Toggle({ children, isChecked, onChange }: Props) {
+export function Toggle({ children, isChecked = false, onChange }: Props) {
   const id = useId();
 
   const handleChange = useCallback(() => {

@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { AiFillSave } from 'react-icons/ai';
 
-import { Datepicker, Editor, SaveButton, Spinner } from '@/components';
-import { useInterval } from '@/hooks';
+import { Datepicker, Editor, Spinner } from '@/components';
+import { useInterval } from '@/services';
 
 import { useGetNoteByDateQuery, useGetNotesSettingsQuery, useUpdateNoteMutation } from './hooks';
 
@@ -73,8 +74,8 @@ export function NotepadWidget() {
             </div>
           )}
           {!isPristine && (
-            <div className='ml-2'>
-              <SaveButton onClick={saveNote} />
+            <div data-test='notepad-save-button' className='ml-2 cursor-pointer' onClick={saveNote}>
+              <AiFillSave size='24' />
             </div>
           )}
           {(isUpdating || isFetching) && (

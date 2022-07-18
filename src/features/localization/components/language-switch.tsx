@@ -4,6 +4,13 @@ import { useLocalization } from '../hooks';
 
 export function LanguageSwitch() {
   const { t, locale, updateLocale } = useLocalization(localization);
+  const sharedCssClasses = `
+    inline-flex items-center py-2 px-4 text-sm font-medium border border-gray-200 
+    hover:bg-gray-100 
+    disabled:bg-gray-100 disabled:shadow-inner
+    dark:hover:bg-gray-700 
+    dark:disabled:bg-gray-700 
+  `;
 
   return (
     <div className='inline-flex rounded-md shadow-sm'>
@@ -11,13 +18,7 @@ export function LanguageSwitch() {
         data-test='locale-ru'
         onClick={() => updateLocale(Locale.Ru)}
         type='button'
-        className={`
-          inline-flex items-center py-2 px-4 text-sm font-medium rounded-l-lg border border-r-0 border-gray-200
-          hover:bg-gray-100
-          disabled:bg-gray-100 disabled:shadow-inner
-          dark:hover:bg-gray-700 
-          dark:disabled:bg-gray-700 
-        `}
+        className={`${sharedCssClasses} rounded-l-lg border-r-0`}
         disabled={locale === Locale.Ru}
       >
         {t('Russian')}
@@ -26,13 +27,7 @@ export function LanguageSwitch() {
         data-test='locale-en'
         onClick={() => updateLocale(Locale.En)}
         type='button'
-        className={`
-          inline-flex items-center py-2 px-4 text-sm font-medium rounded-r-lg border border-gray-200 
-          hover:bg-gray-100 
-          disabled:bg-gray-100 disabled:shadow-inner
-          dark:hover:bg-gray-700 
-          dark:disabled:bg-gray-700 
-        `}
+        className={`${sharedCssClasses} rounded-r-lg`}
         disabled={locale === Locale.En}
       >
         {t('English')}

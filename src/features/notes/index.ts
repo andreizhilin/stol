@@ -1,5 +1,6 @@
 export * from './api';
 export * from './hooks';
-export * from './widget';
+export * from './routes';
 export * from './settings';
 export * from './types';
+export * from './widget';

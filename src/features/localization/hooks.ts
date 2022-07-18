@@ -60,6 +60,7 @@ export function useLocalization(featureLocalization?: LocalizationDictionary) {
 
   return {
     locale,
+    dateFormat: locale === Locale.Ru ? 'D MMMM YYYY' : 'MMMM D, YYYY',
     t,
     isLoading: isFetching,
     isUpdating,

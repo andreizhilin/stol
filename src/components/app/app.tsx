@@ -8,8 +8,8 @@ export function App() {
   const { isDarkMode } = useAppearance();
 
   return (
-    <div className={isDarkMode ? 'dark' : ''}>
+    <main className={isDarkMode ? 'dark' : ''}>
       <NavigationRouter />
-    </div>
+    </main>
   );
 }

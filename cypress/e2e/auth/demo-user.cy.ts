@@ -17,7 +17,7 @@ describe('demo user', () => {
 
   it('should be redirected from signin page to the homepage', () => {
     cy.visit('https://127.0.0.1:3000/signin');
-    cy.url().should('eq', 'https://127.0.0.1:3000/');
+    cy.url().should('eq', 'https://127.0.0.1:3000/notepad');
   });
 
   it('should be able to sign out', () => {

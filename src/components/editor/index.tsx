@@ -48,7 +48,7 @@ export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
-      if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'ы')) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'ы' || e.key === 'S' || e.key === 'Ы')) {
         e.preventDefault();
         onPressCtrlS?.();
       }

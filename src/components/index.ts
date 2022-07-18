@@ -4,6 +4,5 @@ export * from './datepicker';
 export * from './editor';
 export * from './layout';
 export * from './navigation';
-export * from './save-button';
 export * from './spinner';
 export * from './toggle';
