@@ -9,6 +9,7 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "cypress open",
+    "deploy": "aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive dist/ s3://stol.zhilin.app/",
     "prepare": "husky install"
   },
   "dependencies": {
