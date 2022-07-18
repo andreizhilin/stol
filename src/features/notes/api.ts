@@ -2,28 +2,28 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { api } from '@/services';
 
-import { FetchNotesResponse, GetNoteByDateResponse, Note } from './types';
+import { GetNoteByDateResponse, Note } from './types';
 
 export const notesApi = createApi({
   reducerPath: 'notesApi',
   baseQuery: fetchBaseQuery({ baseUrl: api.BASE_URL }),
+  tagTypes: ['Notes'],
   endpoints: builder => ({
-    fetchNotes: builder.query<Note[], void>({
-      query: () => 'notes',
-      transformResponse: (response: FetchNotesResponse) => response.data,
-    }),
     getNoteByDate: builder.query<Note, string>({
       query: dateString => `note?date=${dateString}`,
       transformResponse: (response: GetNoteByDateResponse) => response.data,
+      providesTags: note => [{ type: 'Notes', date: note?.date }],
     }),
-    updateNote: builder.mutation<void, Note>({
+    updateNote: builder.mutation<Note, Note>({
       query: note => ({
         url: 'notes',
         method: 'POST',
         body: note,
       }),
+      transformResponse: (response: GetNoteByDateResponse) => response.data,
+      invalidatesTags: note => [{ type: 'Notes', date: note?.date }],
     }),
   }),
 });
 
-export const { useFetchNotesQuery, useGetNoteByDateQuery, useUpdateNoteMutation } = notesApi;
+export const { useGetNoteByDateQuery, useUpdateNoteMutation } = notesApi;
