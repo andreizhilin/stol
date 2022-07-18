@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Toggle from '@atlaskit/toggle';
 
 import { useLocalization } from '@/features';
@@ -6,20 +6,17 @@ import { useLocalization } from '@/features';
 import { useGetNotesSettingsQuery, useUpdateNotesSettingsMutation } from '../hooks';
 import { localization } from '../localization';
 
-export function NotepadSettingsWidget() {
+export function NotepadSettings() {
   const { data: notesSettings } = useGetNotesSettingsQuery();
   const [updateSettings] = useUpdateNotesSettingsMutation();
   const { t } = useLocalization(localization);
 
-  const handleAutoSaveChange = useCallback(
-    (isAutoSaveEnabled: boolean) => {
-      updateSettings({
-        ...notesSettings,
-        isAutoSaveEnabled,
-      });
-    },
-    [updateSettings, notesSettings],
-  );
+  const handleAutoSaveChange = (isAutoSaveEnabled: boolean) => {
+    updateSettings({
+      ...notesSettings,
+      isAutoSaveEnabled,
+    });
+  };
 
   return (
     <div className='flex items-center space-x-1'>

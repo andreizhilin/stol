@@ -1,5 +1,6 @@
-import { notesApi, useGetSettingsQuery, useUpdateSettingsMutation } from '@/features';
+import { useGetSettingsQuery, useUpdateSettingsMutation } from '@/features';
 
+import { notesApi } from './api';
 import { NotesSettings } from './types';
 
 export const { useGetNoteByDateQuery, useUpdateNoteMutation } = notesApi;

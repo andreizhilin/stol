@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Content, LeftSidebar, Main, PageLayout, TopNavigation } from '@atlaskit/page-layout';
 
-import { Header } from './header';
+import { Header } from '@/components';
 
 type Props = {
   children: ReactNode;

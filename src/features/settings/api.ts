@@ -4,6 +4,8 @@ import { fetchBaseQueryWithRetry } from '@/services/api';
 
 import { GetSettingsResponse, Settings } from './types';
 
+const DEFAULT_SETTINGS = {};
+
 export const settingsApi = createApi({
   reducerPath: 'settingsApi',
   baseQuery: fetchBaseQueryWithRetry,
@@ -11,7 +13,7 @@ export const settingsApi = createApi({
   endpoints: builder => ({
     getSettings: builder.query<Settings, void>({
       query: () => 'settings',
-      transformResponse: (response: GetSettingsResponse) => JSON.parse(response.data ?? '{}'),
+      transformResponse: (response: GetSettingsResponse) => JSON.parse(response.data ?? null) ?? DEFAULT_SETTINGS,
       providesTags: () => [{ type: 'Settings' }],
     }),
     updateSettings: builder.mutation<Settings, Partial<Settings>>({

@@ -20,16 +20,6 @@ export const notesApi = createApi({
         method: 'POST',
         body: note,
       }),
-      async onQueryStarted(note, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          if (!note.id) {
-            dispatch(notesApi.util.invalidateTags([{ type: 'Note', id: undefined }]));
-          }
-        } catch {
-          // TODO: Handle error
-        }
-      },
       transformResponse: (response: GetNoteByDateResponse) => response.data,
     }),
   }),

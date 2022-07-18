@@ -1,7 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import { getNotesRoutes, getSettingsRoutes, getAuthRoutes, ProtectedRoute } from '@/features';
+import {
+  getNotesRoutes,
+  getSettingsRoutes,
+  getAuthRoutes,
+  getRemindersRoutes,
+  ProtectedRoute,
+  NotepadPage,
+} from '@/features';
 import { BaseLayout } from '@/components';
 
 export function NavigationRouter() {
@@ -12,13 +19,16 @@ export function NavigationRouter() {
           path='/'
           element={
             <ProtectedRoute>
-              <BaseLayout>&nbsp;</BaseLayout>
+              <BaseLayout>
+                <NotepadPage />
+              </BaseLayout>
             </ProtectedRoute>
           }
         />
-        {getNotesRoutes()}
-        {getSettingsRoutes()}
         {getAuthRoutes()}
+        {getNotesRoutes()}
+        {getRemindersRoutes()}
+        {getSettingsRoutes()}
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </Router>

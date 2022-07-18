@@ -4,34 +4,103 @@ import 'dayjs/locale/ru';
 
 const AUTO_SAVE_MAX_DELAY_SECONDS = 7;
 
-describe('notepad autosave', () => {
+describe('notepad with auto save', () => {
   const today = dayjs().toDate();
   const tomorrow = dayjs().add(1, 'day').toDate();
+  const emptyNote = 'q{backspace}';
   const note1 = `\`1234567890-=\\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?`;
   const note2 = `ё1234567890-=\\йцукенгшщзхъфывапролджэячсмитьбю.Ё!"№;%:?*()_+/ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,`;
   const note3 = 'note3';
 
-  beforeEach(() => {
-    cy.signin();
+  const container = '[data-testid="notepad-page"]';
+  const textInput = `${container} .ce-block`;
+  const datePicker = `${container} [data-testid="select-date"]`;
+  const selectedDate = '[data-testid="calendar--container"] [data-selected="true"]';
+  const saveButton = `${container} [data-testid="save-button"]`;
 
-    // Enable auto-save
+  function writeText(text: string) {
+    cy.get(container).contains(text).should('not.exist');
+    cy.get(textInput).last().click().type(text);
+    cy.get(saveButton).should('not.be.disabled');
+  }
+
+  function save() {
+    cy.get(saveButton).should('not.be.disabled');
+    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
+    cy.get(saveButton).should('be.disabled');
+  }
+
+  function reload() {
+    cy.reload();
+    cy.waitSkeleton('[data-testid="header-skeleton"]');
+    cy.waitSkeleton('[data-testid="notepad-page-skeleton"]');
+  }
+
+  function verifyNoteNotExist(text: string) {
+    cy.get(container).contains(text).should('not.exist');
+  }
+
+  function verifyNoteExists(text: string) {
+    cy.get(container).contains(text).should('exist');
+  }
+
+  function verifyFormPristine() {
+    cy.get(saveButton).should('be.disabled');
+  }
+
+  function selectPrevDate() {
+    cy.get(datePicker).click();
+    cy.get(selectedDate).then($selectedDate => {
+      if ($selectedDate.parent().children().first().attr('data-selected')) {
+        cy.get(selectedDate).parent().prev().children().last().click();
+      } else {
+        cy.get(selectedDate).prev().click();
+      }
+
+      cy.waitSkeleton('[data-testid="notepad-page-skeleton"]');
+    });
+  }
+
+  function selectNextDate() {
+    cy.get(datePicker).click();
+    cy.get(selectedDate).then($selectedDate => {
+      if ($selectedDate.parent().children().last().attr('data-selected')) {
+        cy.get(selectedDate).parent().next().children().first().click();
+      } else {
+        cy.get(selectedDate).next().click();
+      }
+
+      cy.waitSkeleton('[data-testid="notepad-page-skeleton"]');
+    });
+  }
+
+  function enableAutoSave() {
     cy.visit('https://127.0.0.1:3000/settings/notepad');
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
+    cy.waitSkeleton('[data-testid="header-skeleton"]');
     cy.get('[data-testid="auto-save"] input').should('not.be.checked');
     cy.get('[data-testid="auto-save"]').click();
     cy.get('[data-testid="auto-save"] input').should('be.checked');
+    // TODO: Once success notifications are ready, replace with appearance check
+    cy.wait(2000);
+  }
 
+  beforeEach(() => {
+    cy.signin();
     cy.visit('https://127.0.0.1:3000/notepad');
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-widget"]').as('notepadWidget');
+    cy.waitSkeleton('[data-testid="header-skeleton"]');
+    cy.waitSkeleton('[data-testid="notepad-page-skeleton"]');
   });
 
   afterEach(() => {
     cy.request({ method: 'DELETE', url: '/api/notes', retryOnStatusCodeFailure: true });
+  });
+
+  before(() => {
+    cy.signin();
+    enableAutoSave();
+  });
+
+  after(() => {
     cy.request({ method: 'DELETE', url: '/api/settings', retryOnStatusCodeFailure: true });
   });
 
@@ -40,298 +109,202 @@ describe('notepad autosave', () => {
     cy.get('[data-testid="auto-save"] input').should('be.checked');
     cy.get('[data-testid="auto-save"]').click();
     cy.get('[data-testid="auto-save"] input').should('not.be.checked');
+    // TODO: Once success notifications are ready, replace with appearance check
+    cy.wait(2000);
 
     cy.visit('https://127.0.0.1:3000/notepad');
-    cy.intercept('/api/note?date=*').as('getNote');
-    cy.wait('@getNote');
-    cy.get('[data-testid="notepad-widget"]').as('notepadWidget');
+    cy.waitSkeleton('[data-testid="header-skeleton"]');
+    cy.waitSkeleton('[data-testid="notepad-page-skeleton"]');
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
 
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('not.exist');
-    cy.get('@notepadWidget').contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note1}`);
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
+    writeText(note1);
+    cy.get(saveButton).should('not.be.disabled');
 
     cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
+    cy.get(saveButton).should('not.be.disabled');
 
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
-    cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('not.exist');
-    cy.get('@notepadWidget').contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    reload();
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
+
+    enableAutoSave();
   });
 
-  it('should save a note', () => {
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('not.exist');
-    cy.get('@notepadWidget').contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+  it('should save empty and non-empty note', () => {
+    verifyNoteNotExist(note2);
+    verifyFormPristine();
 
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note2}`);
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
+    writeText(emptyNote);
+    save();
 
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    reload();
+    verifyNoteNotExist(note2);
+    verifyFormPristine();
 
-    cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('not.exist');
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    writeText(emptyNote);
+    save();
+
+    writeText(note2);
+    save();
+    verifyNoteExists(note2);
+
+    reload();
+    verifyNoteExists(note2);
+    verifyFormPristine();
   });
 
   it('should save multiple note corrections during one session', () => {
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('not.exist');
-    cy.get('@notepadWidget').contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    verifyNoteNotExist(note1);
+    verifyNoteNotExist(note2);
+    verifyFormPristine();
 
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note1}`);
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
+    writeText(note1);
+    save();
+    verifyNoteExists(note1);
+    verifyNoteNotExist(note2);
 
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    writeText(note2);
+    save();
+    verifyNoteExists(note1);
+    verifyNoteExists(note2);
 
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note2}`);
-    // TODO: For some reason we should wait here a bit in background cypress run
-    cy.wait(1000);
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
-
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-
-    cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    reload();
+    verifyNoteExists(note1);
+    verifyNoteExists(note2);
   });
 
   it('should allow to edit existing note', () => {
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('not.exist');
-    cy.get('@notepadWidget').contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    verifyNoteNotExist(note1);
+    verifyNoteNotExist(note2);
+    verifyFormPristine();
 
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note1}`);
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
+    writeText(note1);
+    save();
+    verifyNoteExists(note1);
+    verifyNoteNotExist(note2);
 
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    reload();
+    verifyNoteExists(note1);
+    verifyNoteNotExist(note2);
 
-    cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('@notepadWidget').contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    writeText(note2);
+    save();
+    verifyNoteExists(note1);
+    verifyNoteExists(note2);
 
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note2}`);
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
-
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-
-    cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    reload();
+    verifyNoteExists(note1);
+    verifyNoteExists(note2);
   });
 
   it('should allow to edit existing note with multiple corrections', () => {
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('not.exist');
-    cy.get('@notepadWidget').contains(note2).should('not.exist');
-    cy.get('@notepadWidget').contains(note3).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    verifyNoteNotExist(note1);
+    verifyNoteNotExist(note2);
+    verifyNoteNotExist(note3);
+    verifyFormPristine();
 
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note1}`);
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
+    writeText(note1);
+    save();
+    verifyNoteExists(note1);
+    verifyNoteNotExist(note2);
+    verifyNoteNotExist(note3);
 
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    reload();
+    verifyNoteExists(note1);
+    verifyNoteNotExist(note2);
+    verifyNoteNotExist(note3);
 
-    cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('@notepadWidget').contains(note2).should('not.exist');
-    cy.get('@notepadWidget').contains(note3).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    writeText(note2);
+    save();
+    verifyNoteExists(note1);
+    verifyNoteExists(note2);
+    verifyNoteNotExist(note3);
 
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note2}`);
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
+    writeText(note3);
+    save();
+    verifyNoteExists(note1);
+    verifyNoteExists(note2);
+    verifyNoteExists(note3);
 
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note3}`);
-    cy.get('@notepadWidget').contains(note3).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
-
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-    cy.get('@notepadWidget').contains(note3).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-
-    cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('@notepadWidget').contains(note1).should('exist');
-    cy.get('@notepadWidget').contains(note2).should('exist');
-    cy.get('@notepadWidget').contains(note3).should('exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    reload();
+    verifyNoteExists(note1);
+    verifyNoteExists(note2);
+    verifyNoteExists(note3);
   });
 
-  it('should not save a note if date has changed', () => {
+  it('should clear unsaved note on date change', () => {
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.contains(note1).should('not.exist');
-    cy.contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
 
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note1}`);
-    cy.contains(note1).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
+    writeText(note1);
+    verifyNoteExists(note1);
 
-    cy.get('[data-testid="select-date"]').click();
-    cy.get('[data-testid="calendar--container"] [data-selected="true"]').next().click();
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
+    selectNextDate();
     cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-    cy.contains(note1).should('not.exist');
-    cy.contains(note2).should('not.exist');
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
 
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-
-    cy.get('[data-testid="select-date"]').click();
-    cy.get('[data-testid="calendar--container"] [data-selected="true"]').prev().click();
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
+    selectPrevDate();
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-    cy.contains(note1).should('not.exist');
-    cy.contains(note2).should('not.exist');
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
   });
 
-  it('should save a note between date changes', () => {
+  it('should keep saved changes after date change', () => {
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.contains(note1).should('not.exist');
-    cy.contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
 
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note1}`);
-    cy.contains(note1).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
+    writeText(note1);
+    save();
+    verifyNoteExists(note1);
 
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-
-    cy.get('[data-testid="select-date"]').click();
-    cy.get('[data-testid="calendar--container"] [data-selected="true"]').next().click();
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
+    selectNextDate();
     cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-    cy.contains(note1).should('not.exist');
-    cy.contains(note2).should('not.exist');
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
 
-    cy.get('[data-testid="select-date"]').click();
-    cy.get('[data-testid="calendar--container"] [data-selected="true"]').prev().click();
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
+    selectPrevDate();
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-    cy.contains(note1).should('exist');
-    cy.contains(note2).should('not.exist');
+    verifyNoteExists(note1);
+    verifyFormPristine();
+
+    reload();
+    cy.contains(dayjs(today).format('MMMM D, YYYY'));
+    verifyNoteExists(note1);
+    verifyFormPristine();
   });
 
-  it('should save changes made on non-default date', () => {
+  it('should keep changes saved on non-default date after date change', () => {
+    selectNextDate();
+    cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
+
+    writeText(note1);
+    save();
+    verifyNoteExists(note1);
+
+    selectPrevDate();
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.contains(note1).should('not.exist');
-    cy.contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
 
-    cy.get('[data-testid="select-date"]').click();
-    cy.get('[data-testid="calendar--container"] [data-selected="true"]').next().click();
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
+    selectNextDate();
     cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-    cy.contains(note1).should('not.exist');
-    cy.contains(note2).should('not.exist');
+    verifyNoteExists(note1);
+    verifyFormPristine();
 
-    cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
-    cy.contains(note1).should('not.exist');
-    cy.contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-
-    cy.get('[data-testid="notepad-widget"] .ce-block').last().click().type(`${note1}`);
-    cy.contains(note1).should('exist');
-    cy.get('[data-testid="save-button"]').should('not.be.disabled');
-
-    cy.wait(AUTO_SAVE_MAX_DELAY_SECONDS * 1000);
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-    cy.contains(note1).should('exist');
-
-    cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
+    reload();
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
-    cy.contains(note1).should('not.exist');
-    cy.contains(note2).should('not.exist');
-    cy.get('[data-testid="save-button"]').should('be.disabled');
+    verifyNoteNotExist(note1);
+    verifyFormPristine();
 
-    cy.get('[data-testid="select-date"]').click();
-    cy.get('[data-testid="calendar--container"] [data-selected="true"]').next().click();
-    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
-    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
+    selectNextDate();
     cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
-    cy.get('[data-testid="save-button"]').should('be.disabled');
-    cy.contains(note1).should('exist');
-    cy.contains(note2).should('not.exist');
+    verifyNoteExists(note1);
+    verifyFormPristine();
   });
 });
