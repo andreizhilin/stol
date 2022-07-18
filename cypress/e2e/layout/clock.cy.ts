@@ -11,13 +11,13 @@ describe('clock', () => {
   });
 
   it('should show current date and time on desktop', () => {
-    cy.contains(dayjs().format('DD.MM.YYYY')).should('be.visible');
-    cy.contains(dayjs().add(3, 'seconds').format('HH:mm:ss')).should('be.visible');
+    cy.contains(dayjs().add(3, 'seconds').format('HH:mm:ss'))
+      .should('be.visible')
+      .should('have.attr', 'title', dayjs().format('DD.MM.YYYY'));
   });
 
   it('should NOT show current date and time on tablet', () => {
-    cy.viewport(1000, 600);
-    cy.contains(dayjs().format('DD.MM.YYYY')).should('not.be.visible');
+    cy.viewport(760, 600);
     cy.contains(dayjs().add(3, 'seconds').format('HH:mm:ss')).should('not.be.visible');
   });
 });

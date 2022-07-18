@@ -11,9 +11,10 @@ export function Clock() {
   }, 1000);
 
   return (
-    <div className='flex flex-col text-center'>
-      <div>{now.format('HH:mm:ss')}</div>
-      <div>{now.format('DD.MM.YYYY')}</div>
+    <div className='flex flex-col text-center font-bold'>
+      <div className='cursor-default' title={now.format('DD.MM.YYYY')}>
+        {now.format('HH:mm:ss')}
+      </div>
     </div>
   );
 }
