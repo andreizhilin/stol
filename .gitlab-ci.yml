@@ -43,10 +43,12 @@ Build:
 Deploy Prod:
   stage: deploy
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  before_script:
+    - ''
   needs:
     - job: Build
       artifacts: true
   script:
-    - yarn deploy
+    - aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive dist/ s3://stol.zhilin.app/
   only:
     - feature/cicd
