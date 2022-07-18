@@ -1,4 +1,4 @@
-import { KeyboardEvent, useCallback, useRef } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import { createReactEditorJS } from 'react-editor-js';
 import CheckList from '@editorjs/checklist';
@@ -13,11 +13,18 @@ type Props = {
   onPressCtrlS?: () => void;
 };
 
+const EMPTY_EDITOR_VALUE = { blocks: [] };
+
 export function Editor({ value, onChange, onPressCtrlS }: Props) {
+  const [isReady, setIsReady] = useState(false);
   const editorCore = useRef<EditorJS>();
 
   const handleInitialize = useCallback((instance: EditorJS) => {
     editorCore.current = instance;
+  }, []);
+
+  const handleReady = useCallback(() => {
+    setIsReady(true);
   }, []);
 
   const handleChange = useCallback(() => {
@@ -36,12 +43,18 @@ export function Editor({ value, onChange, onPressCtrlS }: Props) {
     [onPressCtrlS],
   );
 
+  useEffect(() => {
+    if (isReady) {
+      editorCore.current?.render(value ? JSON.parse(value) : EMPTY_EDITOR_VALUE);
+    }
+  }, [value, isReady]);
+
   return (
     <div onKeyDown={handleKeyDown}>
       <ReactEditorJS
         tools={{ checkList: CheckList, link: Link }}
-        defaultValue={value ? JSON.parse(value) : undefined}
         onInitialize={handleInitialize}
+        onReady={handleReady}
         onChange={handleChange}
       />
     </div>

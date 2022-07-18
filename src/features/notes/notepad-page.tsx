@@ -1,13 +1,13 @@
 import { useCallback, useState } from 'react';
 import dayjs from 'dayjs';
 
-import { Editor, Page, SaveButton, Spinner } from '@/components';
+import { Datepicker, Editor, Page, SaveButton, Spinner } from '@/components';
 
 import { useGetNoteByDateQuery, useUpdateNoteMutation } from './api';
 
 export function NotepadPage() {
-  const [selectedDate] = useState(new Date());
-  const { data, isLoading } = useGetNoteByDateQuery(dayjs(selectedDate).format('YYYY-MM-DD'));
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const { data, isLoading, isFetching } = useGetNoteByDateQuery(dayjs(selectedDate).format('YYYY-MM-DD'));
   const [note, setNote] = useState(data?.text);
   const [isPristine, setIsPristine] = useState(true);
   const [updateNote, { isLoading: isUpdating }] = useUpdateNoteMutation();
@@ -37,11 +37,13 @@ export function NotepadPage() {
       <div data-test='notepad-page' className='flex w-full max-w-screen-md p-5'>
         <div className='w-full shadow bg-white p-5 md:p-10'>
           <div className='flex justify-center font-bold md:pb-5 '>
-            {dayjs(selectedDate).format('D MMMM YYYY')}
+            <Datepicker value={selectedDate} onChange={setSelectedDate} />
             {!isPristine && <SaveButton onClick={handleClickSave} />}
-            {(isLoading || isUpdating) && <Spinner />}
+            {(isLoading || isUpdating || isFetching) && <Spinner />}
           </div>
-          {!isLoading && <Editor value={data?.text} onChange={handleChangeEditor} onPressCtrlS={saveNote} />}
+          <div className={isLoading || isFetching ? 'hidden' : ''}>
+            <Editor value={data?.text} onChange={handleChangeEditor} onPressCtrlS={saveNote} />
+          </div>
         </div>
       </div>
     </Page>
