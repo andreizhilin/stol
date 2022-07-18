@@ -1,10 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { api } from '@/services';
+
 import { FetchNotesResponse, GetNoteByDateResponse, Note } from './types';
 
 export const notesApi = createApi({
   reducerPath: 'notesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_BASE_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: api.BASE_URL }),
   endpoints: builder => ({
     fetchNotes: builder.query<Note[], undefined>({
       query: () => 'notes',
