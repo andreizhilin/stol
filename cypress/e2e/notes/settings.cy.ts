@@ -20,14 +20,10 @@ describe('notepad settings', () => {
   it('should allow to switch auto-save back and forth', () => {
     cy.get('[data-test="isAutoSaveEnabled"] input').should('not.be.checked');
     cy.get('[data-test="isAutoSaveEnabled"] label').click();
-    cy.get('.animate-spin').should('exist');
-    cy.get('.animate-spin').should('not.exist');
     cy.get('[data-test="isAutoSaveEnabled"] input').should('be.checked');
     cy.reload();
     cy.get('[data-test="isAutoSaveEnabled"] input').should('be.checked');
     cy.get('[data-test="isAutoSaveEnabled"] label').click();
-    cy.get('.animate-spin').should('exist');
-    cy.get('.animate-spin').should('not.exist');
     cy.get('[data-test="isAutoSaveEnabled"] input').should('not.be.checked');
     cy.reload();
     cy.get('[data-test="isAutoSaveEnabled"] input').should('not.be.checked');
