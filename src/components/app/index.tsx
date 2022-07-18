@@ -1,3 +1,5 @@
+import { NavigationRouter } from '@/components';
+
 export function App() {
-  return <div className='text-2xl'>Привет мир</div>;
+  return <NavigationRouter />;
 }
