@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [react(), mkcert(), svgr()],
+    plugins: [react(), mkcert(), svgr(), proxyJsAsset()],
     test: {
       globals: true,
       environment: 'jsdom',
@@ -31,3 +31,17 @@ export default defineConfig(({ mode }) => {
     },
   };
 });
+
+// HACK: Hack to return a proper content-type for js file from Yandex Object Storage
+function proxyJsAsset() {
+  const replaceFrom = '<script type="module" crossorigin src="/assets';
+  const replaceTo = '<script type="module" crossorigin src="/api/assets';
+
+  return {
+    name: 'proxy-js-asset',
+    enforce: 'post' as const,
+    transformIndexHtml(html: string) {
+      return html.replace(replaceFrom, replaceTo);
+    },
+  };
+}
