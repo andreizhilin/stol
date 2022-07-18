@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { NotepadPage, SigninPage } from '@/features';
+import { AuthenticatedPage, NotepadPage, SigninPage } from '@/features';
 
 import { ProtectedRoute } from './protected-route';
 
@@ -25,6 +25,7 @@ export function NavigationRouter() {
           }
         />
         <Route path='/signin' element={<SigninPage />} />
+        <Route path='/authenticated' element={<AuthenticatedPage />} />
       </Routes>
     </Router>
   );
