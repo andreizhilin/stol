@@ -3,6 +3,7 @@ import EditorJS, { OutputData } from '@editorjs/editorjs';
 import CheckList from '@editorjs/checklist';
 import Link from '@editorjs/link';
 import ImageTool from '@editorjs/image';
+import Strikethrough from 'editorjs-strikethrough';
 
 import './index.css';
 
@@ -69,6 +70,10 @@ export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
               byFile: '/api/files',
             },
           },
+        },
+        strikethrough: {
+          class: Strikethrough,
+          shortcut: 'CTRL+SHIFT+X',
         },
       },
     });

@@ -34,6 +34,7 @@
     "@editorjs/paragraph": "^2.8.0",
     "@reduxjs/toolkit": "^1.8.2",
     "dayjs": "^1.11.3",
+    "editorjs-strikethrough": "^1.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.2",
