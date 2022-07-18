@@ -21,5 +21,3 @@ export const authApi = createApi({
     }),
   }),
 });
-
-export const { useAuthenticateMutation, useAuthorizeQuery } = authApi;

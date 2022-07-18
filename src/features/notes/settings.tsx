@@ -4,12 +4,12 @@ import { Checkbox } from '@/components';
 import { useLocalization } from '@/features';
 
 import { useGetNotesSettingsQuery, useUpdateNotesSettingsMutation } from './api';
-import { notesLocalizationDictionary } from './localization-dictionary';
+import { localization } from './localization';
 
 export function NotepadSettingsWidget() {
   const { data: notesSettings, isFetching } = useGetNotesSettingsQuery();
   const [updateSettings, { isLoading: isUpdating }] = useUpdateNotesSettingsMutation();
-  const { t } = useLocalization(notesLocalizationDictionary);
+  const { t } = useLocalization(localization);
 
   const handleAutoSaveChange = useCallback(
     (isAutoSaveEnabled: boolean) => {

@@ -1,4 +1,6 @@
-import { useAuthorizeQuery } from '@/features';
+import { authApi } from './api';
+
+export const { useAuthenticateMutation, useAuthorizeQuery } = authApi;
 
 export function useAuth() {
   const { data, isLoading } = useAuthorizeQuery();

@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 
-import { useAuth } from '@/hooks';
+import { useAuth } from '@/features';
 import { Layout } from '@/components';
 
 type Props = {

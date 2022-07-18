@@ -16,7 +16,7 @@ type Props = {
 
 const EMPTY_EDITOR_BLOCK = { id: 'blQR-e8Du6', type: 'paragraph', data: { text: '' } };
 const EMPTY_EDITOR_VALUE = {
-  time: 1654922109475,
+  time: new Date().getTime(),
   blocks: [EMPTY_EDITOR_BLOCK],
   version: '2.24.3',
 };

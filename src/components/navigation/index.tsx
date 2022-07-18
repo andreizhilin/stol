@@ -2,11 +2,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import {
   AuthenticatedPage,
-  CommonSettingsWidget,
   NotepadWidget,
   NotepadSettingsWidget,
   SettingsLayout,
-  SigninPage,
+  SigninWidget,
   useLocalization,
 } from '@/features';
 
@@ -34,17 +33,7 @@ export function NavigationRouter() {
             </ProtectedRoute>
           }
         />
-        <Route path='/settings' element={<Navigate to='/settings/common' />} />
-        <Route
-          path='/settings/common'
-          element={
-            <ProtectedRoute>
-              <SettingsLayout>
-                <CommonSettingsWidget />
-              </SettingsLayout>
-            </ProtectedRoute>
-          }
-        />
+        <Route path='/settings' element={<Navigate to='/settings/notepad' />} />
         <Route
           path='/settings/notepad'
           element={
@@ -55,7 +44,7 @@ export function NavigationRouter() {
             </ProtectedRoute>
           }
         />
-        <Route path='/signin' element={<SigninPage />} />
+        <Route path='/signin' element={<SigninWidget />} />
         <Route path='/authenticated' element={<AuthenticatedPage />} />
       </Routes>
     </Router>

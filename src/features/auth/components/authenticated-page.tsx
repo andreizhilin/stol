@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { useAuthenticateMutation } from './api';
+import { useAuthenticateMutation } from '../hooks';
 
 export function AuthenticatedPage() {
   const [authenticate, { isError, isSuccess }] = useAuthenticateMutation();

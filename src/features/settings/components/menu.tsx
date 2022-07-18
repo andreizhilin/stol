@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 import { useLocalization } from '@/features';
 
-import { settingsLocalizationDictionary } from './localization-dictionary';
+import { settingsLocalizationDictionary } from '../localization';
 
 export function SettingsMenu() {
   const { t } = useLocalization(settingsLocalizationDictionary);
@@ -13,9 +13,6 @@ export function SettingsMenu() {
 
   return (
     <div className='flex border-b pl-3'>
-      <NavLink to='/settings/common' className={({ isActive }) => getClassName(isActive)}>
-        {t('Common')}
-      </NavLink>
       <NavLink to='/settings/notepad' className={({ isActive }) => getClassName(isActive)}>
         {t('Notepad')}
       </NavLink>

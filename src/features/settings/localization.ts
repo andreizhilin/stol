@@ -1,10 +1,10 @@
 export const settingsLocalizationDictionary = {
   en: {
-    Common: 'Common',
+    Localization: 'Localization',
     Notepad: 'Notepad',
   },
   ru: {
-    Common: 'Общие',
+    Localization: 'Язык',
     Notepad: 'Блокнот',
   },
 };

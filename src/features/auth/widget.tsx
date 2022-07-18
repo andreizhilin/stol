@@ -1,9 +1,9 @@
 import { Navigate } from 'react-router-dom';
 
-import { SigninButtonImage } from '@/assets';
-import { useAuth } from '@/hooks';
+import { SigninButtonImage } from './assets';
+import { useAuth } from './hooks';
 
-export function SigninPage() {
+export function SigninWidget() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
