@@ -10,6 +10,8 @@ describe('demo user', () => {
 
   it('should have access to the notepad page', () => {
     cy.visit('https://127.0.0.1:3000/notepad');
+    cy.get('[data-testid="header-skeleton"]').should('exist');
+    cy.get('[data-testid="header-skeleton"]').should('not.exist');
     cy.get('.animate-pulse').should('exist');
     cy.get('.animate-pulse').should('not.exist');
     cy.get('[data-testid="notepad-widget"]').should('exist');
@@ -22,6 +24,8 @@ describe('demo user', () => {
 
   it('should be able to sign out', () => {
     cy.visit('https://127.0.0.1:3000');
+    cy.get('[data-testid="header-skeleton"]').should('exist');
+    cy.get('[data-testid="header-skeleton"]').should('not.exist');
     cy.get('[data-testid="profile-button"]').should('exist').click();
     cy.get('[data-testid="logout-button"]').should('exist').click();
     cy.url().should('eq', 'https://127.0.0.1:3000/signin');
