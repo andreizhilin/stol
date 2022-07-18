@@ -2,9 +2,9 @@ import { NotesSettings } from '@/features';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { api } from '@/services';
+import { useGetSettingsQuery, useUpdateSettingsMutation } from '@/features';
 
 import { GetNoteByDateResponse, Note } from './types';
-import { useGetSettingsQuery, useUpdateSettingsMutation } from '../settings';
 
 export const notesApi = createApi({
   reducerPath: 'notesApi',

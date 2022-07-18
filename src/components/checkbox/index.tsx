@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useId } from 'react';
 
-import { Spinner } from '../spinner';
+import { Spinner } from '@/components';
 
 type Props = {
   children: ReactNode;

@@ -1,4 +1,5 @@
-import { useGetSettingsQuery, useUpdateSettingsMutation } from '../settings';
+import { useGetSettingsQuery, useUpdateSettingsMutation } from '@/features';
+
 import { LocalizationSettings } from './types';
 
 export function useGetLocalizationSettingsQuery() {

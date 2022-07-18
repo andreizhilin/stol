@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
-import { useLocalization } from '../localization';
+import { useLocalization } from '@/features';
+
 import { settingsLocalizationDictionary } from './localization-dictionary';
 
 export function SettingsMenu() {

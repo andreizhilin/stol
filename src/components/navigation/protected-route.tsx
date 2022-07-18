@@ -1,8 +1,7 @@
 import { Navigate } from 'react-router-dom';
 
 import { useAuth } from '@/hooks';
-
-import { Layout } from '../layout';
+import { Layout } from '@/components';
 
 type Props = {
   children: JSX.Element;

@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { Clock } from '../clock';
+
+import { Clock } from '@/components';
 
 type Props = {
   children: ReactNode;

@@ -1,4 +1,4 @@
-import { Clock } from '../clock';
+import { Clock } from '@/components';
 
 export function Header() {
   return (
