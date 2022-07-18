@@ -5,5 +5,5 @@ type Props = {
 };
 
 export function Page({ children }: Props) {
-  return <div className='min-h-screen bg-gray-200'>{children}</div>;
+  return <div className='flex justify-center min-h-screen bg-gray-50'>{children}</div>;
 }
