@@ -1,3 +1,4 @@
 export * from './api';
-export * from './notepad-page';
+export * from './widget';
+export * from './settings';
 export * from './types';

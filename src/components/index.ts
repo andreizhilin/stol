@@ -1,4 +1,5 @@
 export * from './app';
+export * from './checkbox';
 export * from './clock';
 export * from './datepicker';
 export * from './editor';

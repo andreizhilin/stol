@@ -11,3 +11,7 @@ export type FetchNotesResponse = {
 export type GetNoteByDateResponse = {
   data: Note;
 };
+
+export type NotesSettings = {
+  isAutoSaveEnabled: boolean;
+};

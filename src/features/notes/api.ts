@@ -1,8 +1,10 @@
+import { NotesSettings } from '@/features';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { api } from '@/services';
 
 import { GetNoteByDateResponse, Note } from './types';
+import { useGetSettingsQuery, useUpdateSettingsMutation } from '../settings';
 
 export const notesApi = createApi({
   reducerPath: 'notesApi',
@@ -27,3 +29,25 @@ export const notesApi = createApi({
 });
 
 export const { useGetNoteByDateQuery, useUpdateNoteMutation } = notesApi;
+
+export function useGetNotesSettingsQuery() {
+  const result = useGetSettingsQuery();
+
+  return {
+    ...result,
+    data: result.data?.notes,
+  };
+}
+export function useUpdateNotesSettingsMutation() {
+  const { data: settings } = useGetNotesSettingsQuery();
+  const [updateSettings, result] = useUpdateSettingsMutation();
+
+  const updateNotesSettings = (notesSettings: NotesSettings) => {
+    updateSettings({
+      ...settings,
+      notes: notesSettings,
+    });
+  };
+
+  return [updateNotesSettings, result] as const;
+}

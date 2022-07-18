@@ -1,6 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import { AuthenticatedPage, NotepadPage, SigninPage } from '@/features';
+import {
+  AuthenticatedPage,
+  CommonSettingsWidget,
+  NotepadWidget,
+  NotepadSettingsWidget,
+  SettingsLayout,
+  SigninPage,
+} from '@/features';
 
 import { ProtectedRoute } from './protected-route';
 
@@ -12,7 +19,7 @@ export function NavigationRouter() {
           path='/'
           element={
             <ProtectedRoute>
-              <NotepadPage />
+              <NotepadWidget />
             </ProtectedRoute>
           }
         />
@@ -20,7 +27,28 @@ export function NavigationRouter() {
           path='/notepad'
           element={
             <ProtectedRoute>
-              <NotepadPage />
+              <NotepadWidget />
+            </ProtectedRoute>
+          }
+        />
+        <Route path='/settings' element={<Navigate to='/settings/common' />} />
+        <Route
+          path='/settings/common'
+          element={
+            <ProtectedRoute>
+              <SettingsLayout>
+                <CommonSettingsWidget />
+              </SettingsLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/settings/notepad'
+          element={
+            <ProtectedRoute>
+              <SettingsLayout>
+                <NotepadSettingsWidget />
+              </SettingsLayout>
             </ProtectedRoute>
           }
         />
