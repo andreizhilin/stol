@@ -9,7 +9,20 @@ before_script:
   - apt-get update -qq && apt-get install
 
 stages:
+  - lint
   - unit-test
+  - e2e-test
+  - build
+
+Linting:
+  stage: lint
+  tags:
+    - node
+  before_script: 
+    - yarn config set cache-folder .yarn
+    - yarn install 
+  script:
+    - yarn test run
 
 Unit Test:
   stage: unit-test
@@ -20,3 +33,24 @@ Unit Test:
     - yarn install 
   script:
     - yarn test run
+
+E2E Test:
+  stage: e2e-test
+  tags:
+    - node
+  before_script: 
+    - yarn config set cache-folder .yarn
+    - yarn install 
+  script:
+    - yarn start
+    - yarn test:e2e
+    
+Build:
+  stage: build
+  tags:
+    - node
+  before_script: 
+    - yarn config set cache-folder .yarn
+    - yarn install 
+  script:
+    - yarn build
