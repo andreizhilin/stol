@@ -42,9 +42,8 @@ E2E Test:
     - yarn config set cache-folder .yarn
     - yarn install 
   script:
-    - yarn start
-    - yarn test:e2e
-    
+    - yarn start & yarn test:e2e
+
 Build:
   stage: build
   tags:
