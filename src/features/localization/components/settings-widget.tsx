@@ -2,7 +2,7 @@ import { LanguageSwitch } from './language-switch';
 
 export function LocalizationSettingsWidget() {
   return (
-    <div data-test='language-switch'>
+    <div data-testid='language-switch'>
       <LanguageSwitch />
     </div>
   );

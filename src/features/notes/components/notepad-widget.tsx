@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import { Editor } from '@/components';
 
-import { useGetNoteByDateQuery, useGetNotesSettingsQuery } from '../hooks';
+import { useGetNoteByDateQuery } from '../hooks';
 
 type Props = {
   date: Date;
@@ -14,13 +14,10 @@ type Props = {
 
 export function NotepadWidget({ date, onChange, onReady, onPressCtrlS }: Props) {
   const { data, isFetching } = useGetNoteByDateQuery(dayjs(date).format('YYYY-MM-DD'));
-  const { isFetching: areSettingsLoading } = useGetNotesSettingsQuery();
 
   return (
-    <div data-test='notepad-widget' className='text-lg'>
-      {!isFetching && !areSettingsLoading && (
-        <Editor value={data?.text} onChange={onChange} onReady={onReady} onPressCtrlS={onPressCtrlS} />
-      )}
+    <div data-testid='notepad-widget' className='text-lg border py-8 px-10'>
+      {!isFetching && <Editor value={data?.text} onChange={onChange} onReady={onReady} onPressCtrlS={onPressCtrlS} />}
     </div>
   );
 }

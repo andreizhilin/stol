@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { AiFillSave } from 'react-icons/ai';
+import { ButtonGroup, LoadingButton } from '@atlaskit/button';
 
-import { Datepicker, BaseLayout, Spinner } from '@/components';
+import { BaseLayout, DatePickerButton } from '@/components';
 import { useInterval } from '@/services';
+import { useLocalization } from '@/features';
 
 import { useGetNoteByDateQuery, useGetNotesSettingsQuery, useUpdateNoteMutation } from '../hooks';
 import { NotepadWidget } from '../components';
+import { localization } from '../localization';
+import { NotepadPageSkeleton } from './notepad-page-skeleton';
 
 const DEFAULT_SELECTED_DATE = new Date();
 const DEFAULT_CHANGED_NOTE = undefined;
@@ -24,15 +27,17 @@ export function NotepadPage() {
   const [updateNote, { isLoading: isUpdating }] = useUpdateNoteMutation();
   const { data, isFetching, refetch } = useGetNoteByDateQuery(dayjs(selectedDate).format('YYYY-MM-DD'));
   const { data: notesSettings } = useGetNotesSettingsQuery();
+  const { t, dateFormat } = useLocalization(localization);
 
   const saveNote = useCallback(() => {
+    if (isPristine) return;
     updateNote({
       id: data?.id ?? '',
       date: selectedDate,
       text: changedNoteText ?? '',
     });
     setIsPristine(true);
-  }, [changedNoteText, data?.id, selectedDate, updateNote]);
+  }, [changedNoteText, data?.id, selectedDate, updateNote, isPristine]);
 
   useEffect(() => {
     if (selectedDate) {
@@ -41,9 +46,9 @@ export function NotepadPage() {
   }, [refetch, selectedDate]);
 
   const handleDateChange = useCallback((date: Date) => {
-    setIsPristine(DEFAULT_IS_PRISTINE);
+    setIsPristine(true);
     setSelectedDate(date);
-    setIsNotepadReady(DEFAULT_IS_NOTEPAD_READY);
+    setIsNotepadReady(false);
     setChangedNoteText(DEFAULT_CHANGED_NOTE);
   }, []);
 
@@ -58,7 +63,6 @@ export function NotepadPage() {
   }, []);
 
   useInterval(() => {
-    if (isPristine) return;
     if (!notesSettings?.isAutoSaveEnabled) return;
     if (dayjs().diff(dayjs(lastChangeDate), 'second') < AUTO_SAVE_INTERVAL_SECONDS) return;
 
@@ -66,30 +70,27 @@ export function NotepadPage() {
   }, AUTO_SAVE_INTERVAL_SECONDS * 1000);
 
   return (
-    <BaseLayout
-      toolbar={
-        <div className='flex'>
-          {!isPristine && (
-            <div data-test='notepad-save-button' className='ml-2 cursor-pointer' onClick={saveNote}>
-              <AiFillSave size='24' />
-            </div>
-          )}
-          {(isUpdating || isFetching) && (
-            <div className='ml-2'>
-              <Spinner />
-            </div>
-          )}
-        </div>
-      }
-    >
-      <div data-test='notepad-page' className='flex flex-col w-full max-w-screen-md p-5'>
-        <div className='flex justify-center font-bold pb-5'>
-          {isNotepadReady && (
-            <div className='justify-self-center'>
-              <Datepicker value={selectedDate} onChange={handleDateChange} />
-            </div>
-          )}
-        </div>
+    <BaseLayout>
+      <div data-testid='notepad-page' className='flex flex-col w-full max-w-screen-md p-5 md:ml-40'>
+        {isNotepadReady ? (
+          <div className='my-8'>
+            <div className='mb-4 text-2xl'>{dayjs(selectedDate).format(dateFormat)}</div>
+            <ButtonGroup>
+              <DatePickerButton selectedDate={selectedDate} onSelect={handleDateChange} label={t('SelectDate')} />
+              <LoadingButton
+                testId='save-button'
+                isLoading={isUpdating || isFetching}
+                isDisabled={isPristine}
+                appearance='primary'
+                onClick={saveNote}
+              >
+                {t('Save')}
+              </LoadingButton>
+            </ButtonGroup>
+          </div>
+        ) : (
+          <NotepadPageSkeleton />
+        )}
         <NotepadWidget
           date={selectedDate}
           onChange={handleNotepadChange}

@@ -1,10 +1,14 @@
-export const settingsLocalizationDictionary = {
+export const localization = {
   en: {
-    Common: 'Appearance & Language',
+    System: 'System',
+    Common: 'Language',
+    Widgets: 'Widgets',
     Notepad: 'Notepad',
   },
   ru: {
-    Common: 'Внешний вид и язык',
+    System: 'Системные',
+    Common: 'Язык',
+    Widgets: 'Виджеты',
     Notepad: 'Блокнот',
   },
 };

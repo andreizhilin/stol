@@ -1,14 +1,20 @@
-import { BaseLayout } from '@/components';
-import { NotepadSettingsWidget } from '@/features';
+import PageHeader from '@atlaskit/page-header';
 
-import { SettingsLayout } from '../components';
+import { BaseLayout } from '@/components';
+import { NotepadSettingsWidget, useLocalization } from '@/features';
+
+import { localization } from '../localization';
+import { SettingsMenu } from '../components';
 
 export function NotepadSettingsPage() {
+  const { t } = useLocalization(localization);
+
   return (
-    <BaseLayout>
-      <SettingsLayout>
+    <BaseLayout leftSidebar={<SettingsMenu />}>
+      <div className='mx-8'>
+        <PageHeader>{t('Notepad')}</PageHeader>
         <NotepadSettingsWidget />
-      </SettingsLayout>
+      </div>
     </BaseLayout>
   );
 }

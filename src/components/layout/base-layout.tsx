@@ -1,22 +1,24 @@
 import { ReactNode } from 'react';
-import { Header } from './header';
+import { Content, LeftSidebar, Main, PageLayout, TopNavigation } from '@atlaskit/page-layout';
 
-import { Sidebar } from './sidebar';
+import { Header } from './header';
 
 type Props = {
   children: ReactNode;
 
-  toolbar?: ReactNode;
+  leftSidebar?: ReactNode;
 };
 
-export function BaseLayout({ children, toolbar }: Props) {
+export function BaseLayout({ children, leftSidebar }: Props) {
   return (
-    <div className='flex flex-col min-h-screen md:flex-row dark:bg-gray-900 dark:text-white'>
-      <Sidebar toolbar={toolbar} />
-      <div className='w-full'>
-        <Header toolbar={toolbar} />
-        {children}
-      </div>
-    </div>
+    <PageLayout>
+      <TopNavigation isFixed>
+        <Header />
+      </TopNavigation>
+      <Content>
+        {leftSidebar && <LeftSidebar>{leftSidebar}</LeftSidebar>}
+        <Main>{children}</Main>
+      </Content>
+    </PageLayout>
   );
 }

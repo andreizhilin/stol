@@ -1,18 +1,34 @@
-import { ReactNode } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AppSwitcher, AtlassianNavigation, Settings, PrimaryButton } from '@atlaskit/atlassian-navigation';
 
-import { Clock } from '@/components';
+import { useLocalization } from '@/features';
+import { Logo } from '@/components';
 
-type Props = {
-  toolbar?: ReactNode;
-};
+import { localization } from './localization';
+import { ProfileWidget } from './profile-widget';
+import { ToolsWidget } from './tools-widget';
 
-export function Header({ toolbar }: Props) {
+export function Header() {
+  const { t } = useLocalization(localization);
+
   return (
-    <div className='p-5 hidden md:flex justify-between border-b sticky top-0 z-50 bg-white dark:bg-gray-900 dark:border-gray-700'>
-      <div data-test='toolbar'>{toolbar}</div>
-      <div data-test='clock'>
-        <Clock />
-      </div>
-    </div>
+    <AtlassianNavigation
+      label={t('AppName')}
+      primaryItems={[<ToolsWidget key='tools' />]}
+      renderAppSwitcher={() => <AppSwitcher tooltip={t('Bookmarks')} />}
+      renderProductHome={() => (
+        <NavLink to='/'>
+          <PrimaryButton className='items-center'>
+            <Logo />
+          </PrimaryButton>
+        </NavLink>
+      )}
+      renderSettings={() => (
+        <NavLink to='/settings'>
+          <Settings testId='settings-button' tooltip={t('Settings')} />
+        </NavLink>
+      )}
+      renderProfile={() => <ProfileWidget />}
+    />
   );
 }

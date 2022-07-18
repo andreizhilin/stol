@@ -1,17 +1,20 @@
-import { BaseLayout } from '@/components';
-import { AppearanceSettingsWidget, LocalizationSettingsWidget } from '@/features';
+import PageHeader from '@atlaskit/page-header';
 
-import { SettingsLayout } from '../components';
+import { BaseLayout } from '@/components';
+import { LocalizationSettingsWidget, useLocalization } from '@/features';
+
+import { localization } from '../localization';
+import { SettingsMenu } from '../components';
 
 export function CommonSettingsPage() {
+  const { t } = useLocalization(localization);
+
   return (
-    <BaseLayout>
-      <SettingsLayout>
-        <div className='mb-3'>
-          <AppearanceSettingsWidget />
-        </div>
+    <BaseLayout leftSidebar={<SettingsMenu />}>
+      <div className='mx-8'>
+        <PageHeader>{t('Common')}</PageHeader>
         <LocalizationSettingsWidget />
-      </SettingsLayout>
+      </div>
     </BaseLayout>
   );
 }

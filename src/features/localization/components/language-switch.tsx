@@ -8,14 +8,12 @@ export function LanguageSwitch() {
     inline-flex items-center py-2 px-4 text-sm font-medium border border-gray-200 
     hover:bg-gray-100 
     disabled:bg-gray-100 disabled:shadow-inner
-    dark:hover:bg-gray-700 
-    dark:disabled:bg-gray-700 
   `;
 
   return (
     <div className='inline-flex rounded-md shadow-sm'>
       <button
-        data-test='locale-ru'
+        data-testid='locale-ru'
         onClick={() => updateLocale(Locale.Ru)}
         type='button'
         className={`${sharedCssClasses} rounded-l-lg border-r-0`}
@@ -24,7 +22,7 @@ export function LanguageSwitch() {
         {t('Russian')}
       </button>
       <button
-        data-test='locale-en'
+        data-testid='locale-en'
         onClick={() => updateLocale(Locale.En)}
         type='button'
         className={`${sharedCssClasses} rounded-r-lg`}

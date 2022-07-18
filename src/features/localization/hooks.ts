@@ -62,6 +62,7 @@ export function useLocalization(featureLocalization?: LocalizationDictionary) {
   return {
     locale,
     dateFormat: locale === Locale.Ru ? 'D MMMM YYYY' : 'MMMM D, YYYY',
+    weekStartDay: locale === Locale.Ru ? 1 : (0 as const),
     t,
     isLoading: isFetching,
     isUpdating,

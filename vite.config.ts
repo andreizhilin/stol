@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
       https: true,
       proxy: {
         '/api': {
-          target: env.API_BASE_URL,
+          target: env.API_BASE_URI,
           changeOrigin: true,
           secure: false,
           ws: true,

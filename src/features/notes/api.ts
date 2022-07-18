@@ -21,7 +21,6 @@ export const notesApi = createApi({
         body: note,
       }),
       transformResponse: (response: GetNoteByDateResponse) => response.data,
-      invalidatesTags: note => [{ type: 'Notes', date: note?.date }],
     }),
   }),
 });

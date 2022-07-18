@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
+import Toggle from '@atlaskit/toggle';
 
-import { Toggle } from '@/components';
 import { useLocalization } from '@/features';
 
 import { useGetNotesSettingsQuery, useUpdateNotesSettingsMutation } from '../hooks';
@@ -22,10 +22,17 @@ export function NotepadSettingsWidget() {
   );
 
   return (
-    <div data-test='isAutoSaveEnabled'>
-      <Toggle isChecked={notesSettings?.isAutoSaveEnabled} onChange={handleAutoSaveChange}>
+    <div className='flex items-center space-x-1'>
+      <label htmlFor='auto-save' className='cursor-pointer'>
         {t('AutoSave')}
-      </Toggle>
+      </label>
+      <Toggle
+        id='auto-save'
+        testId='auto-save'
+        size='large'
+        isChecked={notesSettings?.isAutoSaveEnabled}
+        onChange={() => handleAutoSaveChange(!notesSettings?.isAutoSaveEnabled)}
+      />
     </div>
   );
 }

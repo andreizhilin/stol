@@ -45,7 +45,7 @@ describe('html', () => {
 
     // set ru locale
     cy.visit('https://127.0.0.1:3000/settings');
-    cy.get('[data-test="locale-ru"]').click();
+    cy.get('[data-testid="locale-ru"]').click();
 
     // ru locale
     cy.title().should('eq', 'Полезный рабочий "Стол"');

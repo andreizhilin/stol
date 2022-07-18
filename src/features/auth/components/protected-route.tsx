@@ -10,6 +10,7 @@ export function ProtectedRoute({ children }: Props) {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
+    // TODO: Add skeleton
     return null;
   }
 
