@@ -2,7 +2,7 @@ image: cypress/base:16
 
 cache:
   untracked: true
-  key: "$CI_BUILD_REF_NAME"
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
 
