@@ -60,6 +60,7 @@ export function NavigationRouter() {
         {/* Auth */}
         <Route path='/signin' element={<SigninWidget />} />
         <Route path='/authenticated' element={<AuthenticatedPage />} />
+        <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </Router>
   );
