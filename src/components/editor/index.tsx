@@ -1,12 +1,9 @@
-import React, { KeyboardEvent, useCallback, useMemo, useRef } from 'react';
-import { createReactEditorJS } from 'react-editor-js';
+import React, { KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef } from 'react';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import CheckList from '@editorjs/checklist';
 import Link from '@editorjs/link';
 
 import './index.css';
-
-const ReactEditorJS = createReactEditorJS();
 
 type Props = {
   value?: string;
@@ -16,7 +13,7 @@ type Props = {
   onPressCtrlS?: () => void;
 };
 
-const EMPTY_EDITOR_BLOCK = { id: 'blQR-e8Du6', type: 'paragraph', data: { text: '' } };
+const EMPTY_EDITOR_BLOCK = { type: 'paragraph', data: { text: '' } };
 const EMPTY_EDITOR_VALUE = {
   time: new Date().getTime(),
   blocks: [EMPTY_EDITOR_BLOCK],
@@ -24,7 +21,8 @@ const EMPTY_EDITOR_VALUE = {
 };
 
 export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
-  const editorCore = useRef<EditorJS>();
+  const editorRef = useRef<EditorJS>();
+  const id = useId();
   const content = useMemo(() => {
     const content = value ? JSON.parse(value) : EMPTY_EDITOR_VALUE;
     // Editor.js behaves weird with empty array as an initial value
@@ -35,16 +33,8 @@ export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
     return content;
   }, [value]);
 
-  const handleInitialize = useCallback((instance: EditorJS) => {
-    editorCore.current = instance;
-  }, []);
-
-  const handleReady = useCallback(() => {
-    onReady?.();
-  }, [onReady]);
-
   const handleChange = useCallback(async () => {
-    const data = (await editorCore.current?.save()) as OutputData;
+    const data = (await editorRef.current?.save()) as OutputData;
     onChange?.(JSON.stringify(data));
   }, [onChange]);
 
@@ -58,15 +48,34 @@ export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
     [onPressCtrlS],
   );
 
-  return (
-    <div onKeyDown={handleKeyDown}>
-      <ReactEditorJS
-        defaultValue={content}
-        tools={{ checkList: CheckList, link: Link }}
-        onInitialize={handleInitialize}
-        onReady={handleReady}
-        onChange={handleChange}
-      />
-    </div>
-  );
+  const init = useCallback(() => {
+    const editor = new EditorJS({
+      holder: id,
+      data: content,
+      onReady: () => {
+        editorRef.current = editor;
+        onReady?.();
+      },
+      onChange: handleChange,
+      autofocus: true,
+      tools: {
+        checkList: CheckList,
+        link: Link,
+      },
+    });
+  }, [content, handleChange, id, onReady]);
+
+  useEffect(() => {
+    if (!editorRef.current) {
+      init();
+    }
+
+    // TODO: Handle destroy error on navigate
+    return () => {
+      editorRef.current?.destroy();
+      editorRef.current = undefined;
+    };
+  }, [init]);
+
+  return <div onKeyDown={handleKeyDown} id={id} />;
 }
