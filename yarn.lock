@@ -2233,6 +2233,11 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
+editorjs-strikethrough@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/editorjs-strikethrough/-/editorjs-strikethrough-1.0.0.tgz#3687e8fb61d09ef87e76dc9f1f360b6f3db9ec4e"
+  integrity sha512-jesqbAg/nehdhU2LWSH4nxzy276Zvym9T8RjPLpeCEqpJJDzrlmU4CAEGgQUQlbJlNuEtp+w8yloAOwaA5QoYg==
+
 electron-to-chromium@^1.4.147:
   version "1.4.147"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.147.tgz#1ecf318737b21ba1e5b53319eb1edf8143892270"
