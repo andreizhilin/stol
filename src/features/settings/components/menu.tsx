@@ -15,7 +15,7 @@ export function SettingsMenu() {
 
   return (
     <div className='flex border-b dark:border-gray-700'>
-      <NavLink to='/settings' className={({ isActive }) => getClassName(isActive)}>
+      <NavLink end to='/settings' className={({ isActive }) => getClassName(isActive)}>
         {t('Common')}
       </NavLink>
       <NavLink to='/settings/notepad' className={({ isActive }) => getClassName(isActive)}>

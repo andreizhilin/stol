@@ -60,7 +60,7 @@ describe('notepad datepicker', () => {
     cy.contains(note1).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('exist');
 
-    cy.get('[data-test="notepad-save-button"]').click();
+    cy.get('[data-test="notepad-save-button"]:visible').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -106,7 +106,7 @@ describe('notepad datepicker', () => {
     cy.contains(note1).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('exist');
 
-    cy.get('[data-test="notepad-save-button"]').click();
+    cy.get('[data-test="notepad-save-button"]:visible').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');

@@ -46,7 +46,7 @@ describe('notepad autosave', () => {
     cy.get('[data-test="prev-date-button"]').last().as('prevDateButton');
     cy.get('[data-test="next-date-button"]').last().as('nextDateButton');
 
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('not.exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -60,14 +60,14 @@ describe('notepad autosave', () => {
     cy.reload();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('not.exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
   });
 
   it('should save a note', () => {
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('not.exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -83,14 +83,14 @@ describe('notepad autosave', () => {
     cy.reload();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('not.exist');
     cy.get('@notepadWidget').contains(note2).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
   });
 
   it('should save multiple note corrections during one session', () => {
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('not.exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -114,14 +114,14 @@ describe('notepad autosave', () => {
     cy.reload();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
   });
 
   it('should allow to edit existing note', () => {
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('not.exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -137,7 +137,7 @@ describe('notepad autosave', () => {
     cy.reload();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -153,14 +153,14 @@ describe('notepad autosave', () => {
     cy.reload();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
   });
 
   it('should allow to edit existing note with multiple corrections', () => {
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('not.exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
     cy.get('@notepadWidget').contains(note3).should('not.exist');
@@ -177,7 +177,7 @@ describe('notepad autosave', () => {
     cy.reload();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
     cy.get('@notepadWidget').contains(note3).should('not.exist');
@@ -202,7 +202,7 @@ describe('notepad autosave', () => {
     cy.reload();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
-    cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
+    cy.get('[data-test="notepad-page"]').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('exist');
     cy.get('@notepadWidget').contains(note3).should('exist');

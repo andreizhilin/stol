@@ -30,7 +30,7 @@ describe('notepad', () => {
     cy.get('[data-test="notepad-widget"] .ce-block').last().click().type(`q{backspace}`);
     cy.get('[data-test="notepad-save-button"]').should('exist');
 
-    cy.get('[data-test="notepad-save-button"]').click();
+    cy.get('[data-test="notepad-save-button"]:visible').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
@@ -81,7 +81,7 @@ describe('notepad', () => {
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('exist');
 
-    cy.get('[data-test="notepad-save-button"]').click();
+    cy.get('[data-test="notepad-save-button"]:visible').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(note1).should('exist');
@@ -112,7 +112,7 @@ describe('notepad', () => {
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('exist');
 
-    cy.get('[data-test="notepad-save-button"]').click();
+    cy.get('[data-test="notepad-save-button"]:visible').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(note1).should('exist');
@@ -149,7 +149,7 @@ describe('notepad', () => {
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('exist');
 
-    cy.get('[data-test="notepad-save-button"]').click();
+    cy.get('[data-test="notepad-save-button"]:visible').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(note1).should('exist');
@@ -175,7 +175,7 @@ describe('notepad', () => {
     cy.get('@notepadWidget').contains(note3).should('exist');
     cy.get('[data-test="notepad-save-button"]').should('exist');
 
-    cy.get('[data-test="notepad-save-button"]').click();
+    cy.get('[data-test="notepad-save-button"]:visible').click();
     cy.get('.animate-spin').should('exist');
     cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(note3).should('exist');
