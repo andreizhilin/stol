@@ -1,0 +1,54 @@
+image: cypress/base:16
+
+cache:
+  untracked: true
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:  
+  - apt-get update -qq && apt-get install
+  - yarn install
+
+stages:
+  - lint
+  - test
+  - build
+  - deploy
+
+Linting:
+  stage: lint
+  script:
+    - yarn lint
+
+Unit Test:
+  stage: test
+  script:
+    - yarn test run
+
+# TODO: Make e2e tests more stable
+# E2E Test:
+#   stage: test
+#   script:
+#     - yarn start & yarn test:e2e
+
+Build:
+  stage: build
+  script:
+    - yarn build
+  artifacts:
+    paths:
+      - dist/
+
+Deploy Prod:
+  stage: deploy
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  before_script:
+    - ''
+  needs:
+    - job: Build
+      artifacts: true
+  script:
+    - aws --endpoint-url=https://storage.yandexcloud.net s3 cp --recursive dist/ s3://stol.zhilin.app/
+  only:
+    - master
