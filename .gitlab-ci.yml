@@ -9,21 +9,14 @@ before_script:
   - apt-get update -qq && apt-get install
 
 stages:
-  - install
   - unit-test
-
-Install:
-  stage: install
-  tags:
-    - node
-  before_script: 
-    - yarn config set cache-folder .yarn
-  script:
-    - yarn install 
 
 Unit Test:
   stage: unit-test
   tags:
     - node
+  before_script: 
+    - yarn config set cache-folder .yarn
+    - yarn install 
   script:
     - yarn test run
