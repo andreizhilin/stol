@@ -26,11 +26,14 @@ Unit Test:
   script:
     - yarn test run
 
-# TODO: Make e2e tests more stable
-# E2E Test:
-#   stage: test
-#   script:
-#     - yarn start & yarn test:e2e
+E2E Test:
+  stage: test
+  script:
+    - yarn start & yarn test:e2e
+  artifacts:
+    paths:
+      - cypress/videos
+      - cypress/screenshots
 
 Build:
   stage: build

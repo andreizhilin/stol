@@ -5,6 +5,10 @@ describe('html', () => {
     cy.visit('https://127.0.0.1:3000');
   });
 
+  after(() => {
+    cy.request({ method: 'DELETE', url: '/api/settings', retryOnStatusCodeFailure: true });
+  });
+
   it('favicon should exist', () => {
     cy.document()
       .its('head')
@@ -40,11 +44,15 @@ describe('html', () => {
   it('title should be localized', () => {
     cy.signin();
     cy.visit('https://127.0.0.1:3000');
+    cy.get('[data-testid="header-skeleton"]').should('exist');
+    cy.get('[data-testid="header-skeleton"]').should('not.exist');
     // en locale
     cy.title().should('eq', 'Stol - useful desktop');
 
     // set ru locale
     cy.visit('https://127.0.0.1:3000/settings');
+    cy.get('[data-testid="header-skeleton"]').should('exist');
+    cy.get('[data-testid="header-skeleton"]').should('not.exist');
     cy.get('[data-testid="locale-ru"]').click();
 
     // ru locale

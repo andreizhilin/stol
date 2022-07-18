@@ -24,5 +24,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# e2e test artifacts
+cypress/videos
+cypress/screenshots
+
 # Etc
 .eslintcache

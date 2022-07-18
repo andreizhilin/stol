@@ -1,12 +1,12 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { api } from '@/services';
+import { fetchBaseQueryWithRetry } from '@/services/api';
 
 import { AuthorizeResponse, Auth, AuthenticateRequest } from './types';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: api.BASE_URL }),
+  baseQuery: fetchBaseQueryWithRetry,
   endpoints: builder => ({
     authenticate: builder.mutation<void, AuthenticateRequest>({
       query: data => ({

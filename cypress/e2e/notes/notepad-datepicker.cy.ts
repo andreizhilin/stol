@@ -11,14 +11,16 @@ describe('notepad datepicker', () => {
   beforeEach(() => {
     cy.signin();
     cy.visit('https://127.0.0.1:3000/notepad');
-    cy.intercept('/api/note?date=*').as('getNote');
-    cy.wait('@getNote');
+    cy.get('[data-testid="header-skeleton"]').should('exist');
+    cy.get('[data-testid="header-skeleton"]').should('not.exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
     cy.get('[data-testid="notepad-widget"]').as('notepadWidget');
   });
 
   afterEach(() => {
-    cy.request('DELETE', '/api/notes');
-    cy.request('DELETE', '/api/settings');
+    cy.request({ method: 'DELETE', url: '/api/notes', retryOnStatusCodeFailure: true });
+    cy.request({ method: 'DELETE', url: '/api/settings', retryOnStatusCodeFailure: true });
   });
 
   it('should clear unsaved note', () => {
@@ -33,8 +35,8 @@ describe('notepad datepicker', () => {
 
     cy.get('[data-testid="select-date"]').click();
     cy.get('[data-testid="calendar--container"] [data-selected="true"]').next().click();
-    cy.get('.animate-pulse').should('exist');
-    cy.get('.animate-pulse').should('not.exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
     cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
     cy.get('[data-testid="save-button"]').should('be.disabled');
     cy.contains(note1).should('not.exist');
@@ -42,8 +44,8 @@ describe('notepad datepicker', () => {
 
     cy.get('[data-testid="select-date"]').click();
     cy.get('[data-testid="calendar--container"] [data-selected="true"]').prev().click();
-    cy.get('.animate-pulse').should('exist');
-    cy.get('.animate-pulse').should('not.exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('[data-testid="save-button"]').should('be.disabled');
     cy.contains(note1).should('not.exist');
@@ -61,16 +63,16 @@ describe('notepad datepicker', () => {
     cy.get('[data-testid="save-button"]').should('not.be.disabled');
 
     cy.get('[data-testid="save-button"]:visible').click();
-    // TODO: Proper wait for request
-    cy.wait(1000);
+    cy.get('[data-testid="save-button"]').should('have.attr', 'data-has-overlay');
+    cy.get('[data-testid="save-button"]').should('not.have.attr', 'data-has-overlay');
     cy.get('[data-testid="save-button"]').contains('Save').should('exist');
     cy.get('[data-testid="save-button"]').should('be.disabled');
     cy.contains(note1).should('exist');
 
     cy.get('[data-testid="select-date"]').click();
     cy.get('[data-testid="calendar--container"] [data-selected="true"]').next().click();
-    cy.get('.animate-pulse').should('exist');
-    cy.get('.animate-pulse').should('not.exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
     cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
     cy.get('[data-testid="save-button"]').should('be.disabled');
     cy.contains(note1).should('not.exist');
@@ -78,8 +80,8 @@ describe('notepad datepicker', () => {
 
     cy.get('[data-testid="select-date"]').click();
     cy.get('[data-testid="calendar--container"] [data-selected="true"]').prev().click();
-    cy.get('.animate-pulse').should('exist');
-    cy.get('.animate-pulse').should('not.exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('[data-testid="save-button"]').should('be.disabled');
     cy.contains(note1).should('exist');
@@ -94,8 +96,8 @@ describe('notepad datepicker', () => {
 
     cy.get('[data-testid="select-date"]').click();
     cy.get('[data-testid="calendar--container"] [data-selected="true"]').next().click();
-    cy.get('.animate-pulse').should('exist');
-    cy.get('.animate-pulse').should('not.exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
     cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
     cy.get('[data-testid="save-button"]').should('be.disabled');
     cy.contains(note1).should('not.exist');
@@ -111,16 +113,16 @@ describe('notepad datepicker', () => {
     cy.get('[data-testid="save-button"]').should('not.be.disabled');
 
     cy.get('[data-testid="save-button"]:visible').click();
-    // TODO: Proper wait for request
-    cy.wait(1000);
+    cy.get('[data-testid="save-button"]').should('have.attr', 'data-has-overlay');
+    cy.get('[data-testid="save-button"]').should('not.have.attr', 'data-has-overlay');
     cy.get('[data-testid="save-button"]').contains('Save').should('exist');
     cy.get('[data-testid="save-button"]').should('be.disabled');
     cy.contains(note1).should('exist');
 
     cy.get('[data-testid="select-date"]').click();
     cy.get('[data-testid="calendar--container"] [data-selected="true"]').prev().click();
-    cy.get('.animate-pulse').should('exist');
-    cy.get('.animate-pulse').should('not.exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('[data-testid="save-button"]').should('be.disabled');
     cy.contains(note1).should('not.exist');
@@ -128,8 +130,8 @@ describe('notepad datepicker', () => {
 
     cy.get('[data-testid="select-date"]').click();
     cy.get('[data-testid="calendar--container"] [data-selected="true"]').next().click();
-    cy.get('.animate-pulse').should('exist');
-    cy.get('.animate-pulse').should('not.exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
     cy.contains(dayjs(tomorrow).format('MMMM D, YYYY'));
     cy.get('[data-testid="save-button"]').should('be.disabled');
     cy.contains(note1).should('exist');
@@ -143,12 +145,16 @@ describe('notepad datepicker', () => {
 
     // set ru locale
     cy.visit('https://127.0.0.1:3000/settings');
+    cy.get('[data-testid="header-skeleton"]').should('exist');
+    cy.get('[data-testid="header-skeleton"]').should('not.exist');
     cy.get('[data-testid="locale-ru"]').click();
 
     // ru locale
     cy.visit('https://127.0.0.1:3000/notepad');
-    cy.get('.animate-pulse').should('exist');
-    cy.get('.animate-pulse').should('not.exist');
+    cy.get('[data-testid="header-skeleton"]').should('exist');
+    cy.get('[data-testid="header-skeleton"]').should('not.exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('exist');
+    cy.get('[data-testid="notepad-page-skeleton"]').should('not.exist');
     cy.contains(dayjs(today).format('MMMM D, YYYY')).should('not.exist');
     cy.contains(dayjs(today).locale('ru').format('D MMMM YYYY')).should('exist');
   });

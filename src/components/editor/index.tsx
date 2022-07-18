@@ -79,10 +79,12 @@ export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
       init();
     }
 
-    // TODO: Handle destroy error on navigate
     return () => {
-      editorRef.current?.destroy();
-      editorRef.current = undefined;
+      editorRef.current?.isReady
+        .then(() => editorRef.current?.destroy?.())
+        .then(() => {
+          editorRef.current = undefined;
+        });
     };
   }, [init]);
 

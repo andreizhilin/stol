@@ -1,12 +1,12 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { api } from '@/services';
+import { fetchBaseQueryWithRetry } from '@/services/api';
 
 import { GetSettingsResponse, Settings } from './types';
 
 export const settingsApi = createApi({
   reducerPath: 'settingsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: api.BASE_URL }),
+  baseQuery: fetchBaseQueryWithRetry,
   tagTypes: ['Settings'],
   endpoints: builder => ({
     getSettings: builder.query<Settings, void>({
