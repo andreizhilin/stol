@@ -6,3 +6,8 @@ export type Auth = {
 export type AuthorizeResponse = {
   data: Auth;
 };
+
+export type AuthenticateRequest = {
+  accessToken: string;
+  expiresIn: number;
+};

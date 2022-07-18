@@ -2,17 +2,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { api } from '@/services';
 
-import { AuthorizeResponse, Auth } from './types';
+import { AuthorizeResponse, Auth, AuthenticateRequest } from './types';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ baseUrl: api.BASE_URL }),
   endpoints: builder => ({
-    authenticate: builder.mutation<void, string>({
-      query: accessToken => ({
+    authenticate: builder.mutation<void, AuthenticateRequest>({
+      query: data => ({
         url: 'authenticate',
         method: 'POST',
-        body: { data: accessToken },
+        body: { data },
       }),
     }),
     authorize: builder.query<Auth, void>({
