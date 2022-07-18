@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { LanguageSwitch } from './language-switch';
 
 export function LocalizationSettingsWidget() {

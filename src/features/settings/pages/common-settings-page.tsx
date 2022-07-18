@@ -1,3 +1,4 @@
+import React from 'react';
 import PageHeader from '@atlaskit/page-header';
 
 import { BaseLayout } from '@/components';

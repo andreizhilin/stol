@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { NavigationRouter } from '@/components';
 import { useLocalization } from '@/features';
 import { dayjs } from '@/services';

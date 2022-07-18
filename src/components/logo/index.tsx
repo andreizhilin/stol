@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { images } from '@/assets';
 import { useLocalization } from '@/features';
 

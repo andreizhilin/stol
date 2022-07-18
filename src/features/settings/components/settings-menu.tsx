@@ -1,3 +1,4 @@
+import React from 'react';
 import { ButtonItem, MenuGroup, Section } from '@atlaskit/menu';
 
 import { useLocalization } from '@/features';

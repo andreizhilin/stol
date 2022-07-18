@@ -1,4 +1,4 @@
-import { KeyboardEvent, useCallback, useMemo, useRef } from 'react';
+import React, { KeyboardEvent, useCallback, useMemo, useRef } from 'react';
 import { createReactEditorJS } from 'react-editor-js';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import CheckList from '@editorjs/checklist';

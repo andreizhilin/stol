@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [react(), mkcert(), svgr(), proxyJsAsset()],
+    plugins: [react({ jsxRuntime: 'classic' }), mkcert(), svgr(), proxyJsAsset()],
     test: {
       globals: true,
       environment: 'jsdom',

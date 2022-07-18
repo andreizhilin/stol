@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route } from 'react-router-dom';
 
 import { AuthenticatedPage, SigninPage } from './pages';

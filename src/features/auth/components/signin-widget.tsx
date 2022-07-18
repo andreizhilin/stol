@@ -1,3 +1,4 @@
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { useLocalization, Locale } from '@/features';
@@ -12,7 +13,7 @@ export function SigninWidget() {
   const { t, locale } = useLocalization(localization);
   const authUri = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${
     import.meta.env.VITE_OAUTH_CLIENT_ID
-  }`;
+  }&redirect_uri=${import.meta.env.VITE_OAUTH_REDIRECT_URI}`;
 
   if (isAuthenticated) {
     return <Navigate to='/' />;

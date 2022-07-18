@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { CenteredLayout } from '@/components';
 
 import { SigninWidget } from '../components/signin-widget';

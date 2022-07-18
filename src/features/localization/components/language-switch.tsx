@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { localization } from '../localization';
 import { Locale } from '../types';
 import { useLocalization } from '../hooks';

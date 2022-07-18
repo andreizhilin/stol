@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function NotepadPageSkeleton() {
   return (
     <div className='w-full h-screen animate-pulse mt-8'>

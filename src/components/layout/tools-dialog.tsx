@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { ButtonItem, MenuGroup } from '@atlaskit/menu';
 

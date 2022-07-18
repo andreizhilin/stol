@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { PrimaryDropdownButton } from '@atlaskit/atlassian-navigation';
 import Popup from '@atlaskit/popup';
 
