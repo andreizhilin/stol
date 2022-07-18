@@ -2,7 +2,7 @@
 
 describe('favicon', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
+    cy.visit('https://127.0.0.1:3000');
   });
 
   it('apple-touch-icon should exist', () => {

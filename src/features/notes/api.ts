@@ -8,7 +8,7 @@ export const notesApi = createApi({
   reducerPath: 'notesApi',
   baseQuery: fetchBaseQuery({ baseUrl: api.BASE_URL }),
   endpoints: builder => ({
-    fetchNotes: builder.query<Note[], undefined>({
+    fetchNotes: builder.query<Note[], void>({
       query: () => 'notes',
       transformResponse: (response: FetchNotesResponse) => response.data,
     }),

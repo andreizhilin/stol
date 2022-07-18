@@ -6,7 +6,7 @@ dayjs.locale('ru');
 
 describe('clock', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
+    cy.visit('https://127.0.0.1:3000');
   });
 
   it('should show current date and time on desktop', () => {

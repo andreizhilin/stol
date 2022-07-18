@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import dayjs from 'dayjs';
 
-import { Datepicker, Editor, Page, SaveButton, Spinner } from '@/components';
+import { Datepicker, Editor, SaveButton, Spinner } from '@/components';
 
 import { useGetNoteByDateQuery, useUpdateNoteMutation } from './api';
 
@@ -33,19 +33,17 @@ export function NotepadPage() {
   }, [saveNote]);
 
   return (
-    <Page>
-      <div data-test='notepad-page' className='flex w-full max-w-screen-md p-5'>
-        <div className='w-full shadow bg-white p-5 md:p-10'>
-          <div className='flex justify-center font-bold md:pb-5 '>
-            <Datepicker value={selectedDate} onChange={setSelectedDate} />
-            {!isPristine && <SaveButton onClick={handleClickSave} />}
-            {(isLoading || isUpdating || isFetching) && <Spinner />}
-          </div>
-          <div className={isLoading || isFetching ? 'hidden' : ''}>
-            <Editor value={data?.text} onChange={handleChangeEditor} onPressCtrlS={saveNote} />
-          </div>
+    <div data-test='notepad-page' className='flex w-full max-w-screen-md p-5'>
+      <div className='w-full shadow bg-white p-5 md:p-10'>
+        <div className='flex justify-center font-bold md:pb-5 '>
+          <Datepicker value={selectedDate} onChange={setSelectedDate} />
+          {!isPristine && <SaveButton onClick={handleClickSave} />}
+          {(isLoading || isUpdating || isFetching) && <Spinner />}
+        </div>
+        <div className={isLoading || isFetching ? 'hidden' : ''}>
+          <Editor value={data?.text} onChange={handleChangeEditor} onPressCtrlS={saveNote} />
         </div>
       </div>
-    </Page>
+    </div>
   );
 }

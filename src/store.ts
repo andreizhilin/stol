@@ -1,13 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
-import { notesApi } from '@/features';
+import { authApi, notesApi } from '@/features';
 
 export const store = configureStore({
   reducer: {
+    [authApi.reducerPath]: authApi.reducer,
     [notesApi.reducerPath]: notesApi.reducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(notesApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(notesApi.middleware).concat(authApi.middleware),
 });
 
 setupListeners(store.dispatch);
