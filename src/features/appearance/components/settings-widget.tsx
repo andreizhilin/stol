@@ -3,8 +3,8 @@ import { useCallback } from 'react';
 import { Toggle } from '@/components';
 import { useLocalization } from '@/features';
 
-import { useGetAppearanceSettingsQuery, useUpdateAppearanceSettingsMutation } from './hooks';
-import { localization } from './localization';
+import { useGetAppearanceSettingsQuery, useUpdateAppearanceSettingsMutation } from '../hooks';
+import { localization } from '../localization';
 
 export function AppearanceSettingsWidget() {
   const { data: appearanceSettings } = useGetAppearanceSettingsQuery();

@@ -1,35 +1,25 @@
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import { AppearanceSettingsWidget, LocalizationSettingsWidget, ProtectedRoute } from '@/features';
-import { Layout } from '@/components';
+import { ProtectedRoute } from '@/features';
 
-import { SettingsLayout } from './components';
+import { CommonSettingsPage, NotepadSettingsPage } from './pages';
 
 export function getSettingsRoutes() {
   return (
     <>
-      <Route path='/settings' element={<Navigate to='/settings/appearance' />} />
       <Route
-        path='/settings/appearance'
+        path='/settings'
         element={
           <ProtectedRoute>
-            <Layout>
-              <SettingsLayout>
-                <AppearanceSettingsWidget />
-              </SettingsLayout>
-            </Layout>
+            <CommonSettingsPage />
           </ProtectedRoute>
         }
       />
       <Route
-        path='/settings/localization'
+        path='/settings/notepad'
         element={
           <ProtectedRoute>
-            <Layout>
-              <SettingsLayout>
-                <LocalizationSettingsWidget />
-              </SettingsLayout>
-            </Layout>
+            <NotepadSettingsPage />
           </ProtectedRoute>
         }
       />

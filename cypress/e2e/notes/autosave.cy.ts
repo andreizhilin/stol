@@ -58,6 +58,8 @@ describe('notepad autosave', () => {
 
     cy.get('[data-test="notepad-save-button"]').should('exist');
     cy.reload();
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('not.exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
@@ -79,6 +81,8 @@ describe('notepad autosave', () => {
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
 
     cy.reload();
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('not.exist');
     cy.get('@notepadWidget').contains(note2).should('exist');
@@ -108,6 +112,8 @@ describe('notepad autosave', () => {
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
 
     cy.reload();
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('exist');
@@ -129,6 +135,8 @@ describe('notepad autosave', () => {
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
 
     cy.reload();
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
@@ -143,6 +151,8 @@ describe('notepad autosave', () => {
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
 
     cy.reload();
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('exist');
@@ -165,6 +175,8 @@ describe('notepad autosave', () => {
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
 
     cy.reload();
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('not.exist');
@@ -188,6 +200,8 @@ describe('notepad autosave', () => {
     cy.get('[data-test="notepad-save-button"]').should('not.exist');
 
     cy.reload();
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
     cy.get('@notepadWidget').contains(dayjs(today).format('MMMM D, YYYY'));
     cy.get('@notepadWidget').contains(note1).should('exist');
     cy.get('@notepadWidget').contains(note2).should('exist');
@@ -281,6 +295,8 @@ describe('notepad autosave', () => {
     cy.contains(note1).should('exist');
 
     cy.reload();
+    cy.get('.animate-spin').should('exist');
+    cy.get('.animate-spin').should('not.exist');
     cy.contains(dayjs(today).format('MMMM D, YYYY'));
     cy.contains(note1).should('not.exist');
     cy.contains(note2).should('not.exist');

@@ -1,12 +1,11 @@
 import { Route } from 'react-router-dom';
 
-import { AuthenticatedPage } from './components';
-import { SigninWidget } from './widget';
+import { AuthenticatedPage, SigninPage } from './pages';
 
 export function getAuthRoutes() {
   return (
     <>
-      <Route path='/signin' element={<SigninWidget />} />
+      <Route path='/signin' element={<SigninPage />} />
       <Route path='/authenticated' element={<AuthenticatedPage />} />
     </>
   );

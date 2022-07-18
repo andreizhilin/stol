@@ -5,7 +5,7 @@ import { AiFillSave } from 'react-icons/ai';
 import { Datepicker, Editor, Spinner } from '@/components';
 import { useInterval } from '@/services';
 
-import { useGetNoteByDateQuery, useGetNotesSettingsQuery, useUpdateNoteMutation } from './hooks';
+import { useGetNoteByDateQuery, useGetNotesSettingsQuery, useUpdateNoteMutation } from '../hooks';
 
 const DEFAULT_SELECTED_DATE = new Date();
 const DEFAULT_CHANGED_NOTE = undefined;

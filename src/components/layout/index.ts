@@ -1,2 +1,2 @@
+export * from './centered-layout';
 export * from './layout';
-export * from './sidebar';

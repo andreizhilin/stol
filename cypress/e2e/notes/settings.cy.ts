@@ -35,7 +35,7 @@ describe('notepad settings', () => {
     cy.contains('Автосохранение').should('not.exist');
 
     // set ru locale
-    cy.visit('https://127.0.0.1:3000/settings/localization');
+    cy.visit('https://127.0.0.1:3000/settings');
     cy.get('[data-test="locale-ru"]').click();
 
     // ru locale
@@ -50,7 +50,7 @@ describe('notepad settings', () => {
     cy.get('[data-test="isAutoSaveEnabled"]').should('have.css', 'color', 'rgb(0, 0, 0)');
 
     // set dark theme
-    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.visit('https://127.0.0.1:3000/settings');
     cy.get('[data-test="isDarkMode"] label').click();
 
     // dark theme

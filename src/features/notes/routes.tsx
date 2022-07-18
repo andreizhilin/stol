@@ -1,10 +1,8 @@
 import { Route } from 'react-router-dom';
 
-import { ProtectedRoute, SettingsLayout } from '@/features';
-import { Layout } from '@/components';
+import { ProtectedRoute } from '@/features';
 
-import { NotepadWidget } from './widget';
-import { NotepadSettingsWidget } from './settings';
+import { NotepadPage } from './pages';
 
 export function getNotesRoutes() {
   return (
@@ -13,21 +11,7 @@ export function getNotesRoutes() {
         path='/notepad'
         element={
           <ProtectedRoute>
-            <Layout>
-              <NotepadWidget />
-            </Layout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/settings/notepad'
-        element={
-          <ProtectedRoute>
-            <Layout>
-              <SettingsLayout>
-                <NotepadSettingsWidget />
-              </SettingsLayout>
-            </Layout>
+            <NotepadPage />
           </ProtectedRoute>
         }
       />

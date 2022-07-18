@@ -194,7 +194,7 @@ describe('notepad', () => {
     cy.get('[data-test="notepad-widget"]').should('have.css', 'color', 'rgb(0, 0, 0)');
 
     // set dark theme
-    cy.visit('https://127.0.0.1:3000/settings/appearance');
+    cy.visit('https://127.0.0.1:3000/settings');
     cy.get('[data-test="isDarkMode"] label').click();
 
     // dark theme

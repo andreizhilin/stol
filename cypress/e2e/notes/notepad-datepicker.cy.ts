@@ -135,7 +135,7 @@ describe('notepad datepicker', () => {
     cy.contains(dayjs(today).locale('ru').format('D MMMM YYYY')).should('not.exist');
 
     // set ru locale
-    cy.visit('https://127.0.0.1:3000/settings/localization');
+    cy.visit('https://127.0.0.1:3000/settings');
     cy.get('[data-test="locale-ru"]').click();
 
     // ru locale

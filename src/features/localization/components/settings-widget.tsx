@@ -1,4 +1,4 @@
-import { LanguageSwitch } from './components/language-switch';
+import { LanguageSwitch } from './language-switch';
 
 export function LocalizationSettingsWidget() {
   return (
