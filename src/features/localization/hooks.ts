@@ -56,6 +56,7 @@ export function useLocalization(featureLocalization?: LocalizationDictionary) {
 
   useEffect(() => {
     dayjs.locale(locale);
+    document.title = commonLocalization[locale]?.['DocumentTitle'];
   }, [locale]);
 
   return {

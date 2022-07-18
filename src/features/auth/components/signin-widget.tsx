@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 
-import { useLocalization } from '@/features';
+import { useLocalization, Locale } from '@/features';
 
 import { SigninButtonImage } from '../assets';
 import { useAuth } from '../hooks';
@@ -8,7 +8,10 @@ import { localization } from '../localization';
 
 export function SigninWidget() {
   const { isAuthenticated } = useAuth();
-  const { t } = useLocalization(localization);
+  const { t, locale } = useLocalization(localization);
+  const authUri = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${
+    import.meta.env.VITE_OAUTH_CLIENT_ID
+  }`;
 
   if (isAuthenticated) {
     return <Navigate to='/' />;
@@ -23,13 +26,19 @@ export function SigninWidget() {
       >
         {t('StartDemo')}
       </a>
-      <a
-        data-test='signin-button'
-        className='cursor-pointer'
-        href={`https://oauth.yandex.ru/authorize?response_type=token&client_id=${import.meta.env.VITE_OAUTH_CLIENT_ID}`}
-      >
-        <SigninButtonImage />
-      </a>
+      {locale === Locale.Ru ? (
+        <a data-test='signin-button' className='cursor-pointer' href={authUri}>
+          <SigninButtonImage />
+        </a>
+      ) : (
+        <a
+          data-test='signin-button'
+          className='block mb-5 bg-black cursor-pointer text-white text-center p-4'
+          href={authUri}
+        >
+          {t('SignIn')}
+        </a>
+      )}
     </div>
   );
 }
