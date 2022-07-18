@@ -8,12 +8,13 @@ import { SigninButtonImage } from '../assets';
 import { useAuth } from '../hooks';
 import { localization } from '../localization';
 
-export function SigninWidget() {
+const AUTH_URI = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${
+  import.meta.env.VITE_OAUTH_CLIENT_ID
+}&redirect_uri=${import.meta.env.VITE_OAUTH_REDIRECT_URI}`;
+
+export function Signin() {
   const { isAuthenticated } = useAuth();
   const { t, locale } = useLocalization(localization);
-  const authUri = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${
-    import.meta.env.VITE_OAUTH_CLIENT_ID
-  }&redirect_uri=${import.meta.env.VITE_OAUTH_REDIRECT_URI}`;
 
   if (isAuthenticated) {
     return <Navigate to='/' />;
@@ -30,14 +31,14 @@ export function SigninWidget() {
         {t('StartDemo')}
       </a>
       {locale === Locale.Ru ? (
-        <a data-testid='signin-button' className='cursor-pointer' href={authUri}>
+        <a data-testid='signin-button' className='cursor-pointer' href={AUTH_URI}>
           <SigninButtonImage />
         </a>
       ) : (
         <a
           data-testid='signin-button'
           className='block mb-5 bg-black cursor-pointer text-white text-center p-4'
-          href={authUri}
+          href={AUTH_URI}
         >
           {t('SignIn')}
         </a>

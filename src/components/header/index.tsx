@@ -6,8 +6,10 @@ import { useLocalization } from '@/features';
 import { Logo } from '@/components';
 
 import { localization } from './localization';
-import { ProfileWidget } from './profile-widget';
-import { ToolsWidget } from './tools-widget';
+import { ProfileWidget } from './components/profile-widget';
+import { ToolsWidget } from './components/tools-widget';
+import { CreateWidget } from './components/create-widget';
+import { HeaderSkeleton } from './skeleton';
 
 export function Header() {
   const { t } = useLocalization(localization);
@@ -24,6 +26,7 @@ export function Header() {
           </PrimaryButton>
         </NavLink>
       )}
+      renderCreate={() => <CreateWidget />}
       renderSettings={() => (
         <NavLink to='/settings'>
           <Settings testId='settings-button' tooltip={t('Settings')} />
@@ -33,3 +36,5 @@ export function Header() {
     />
   );
 }
+
+Header.Skeleton = HeaderSkeleton;

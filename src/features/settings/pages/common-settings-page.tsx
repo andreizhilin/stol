@@ -2,7 +2,7 @@ import React from 'react';
 import PageHeader from '@atlaskit/page-header';
 
 import { BaseLayout } from '@/components';
-import { LocalizationSettingsWidget, useLocalization } from '@/features';
+import { LanguageSettings, useLocalization } from '@/features';
 
 import { localization } from '../localization';
 import { SettingsMenu } from '../components';
@@ -14,7 +14,7 @@ export function CommonSettingsPage() {
     <BaseLayout leftSidebar={<SettingsMenu />}>
       <div className='mx-8'>
         <PageHeader>{t('Common')}</PageHeader>
-        <LocalizationSettingsWidget />
+        <LanguageSettings />
       </div>
     </BaseLayout>
   );

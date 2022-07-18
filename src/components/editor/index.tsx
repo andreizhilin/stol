@@ -1,11 +1,9 @@
-import React, { KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef } from 'react';
-import EditorJS, { OutputData } from '@editorjs/editorjs';
+import React, { KeyboardEvent, useCallback, useEffect, useRef } from 'react';
+import EditorJS from '@editorjs/editorjs';
 import CheckList from '@editorjs/checklist';
 import Link from '@editorjs/link';
 import ImageTool from '@editorjs/image';
 import Strikethrough from 'editorjs-strikethrough';
-
-import './index.css';
 
 type Props = {
   value?: string;
@@ -15,28 +13,29 @@ type Props = {
   onPressCtrlS?: () => void;
 };
 
-const EMPTY_EDITOR_BLOCK = { type: 'paragraph', data: { text: '' } };
-const EMPTY_EDITOR_VALUE = {
-  time: new Date().getTime(),
-  blocks: [EMPTY_EDITOR_BLOCK],
-  version: '2.24.3',
+const EDITOR_ID = 'editor';
+const EDITOR_TOOLS = {
+  checkList: CheckList,
+  link: Link,
+  image: {
+    class: ImageTool,
+    config: {
+      endpoints: {
+        byFile: '/api/files',
+      },
+    },
+  },
+  strikethrough: {
+    class: Strikethrough,
+    shortcut: 'CTRL+SHIFT+X',
+  },
 };
 
 export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
   const editorRef = useRef<EditorJS>();
-  const id = useId();
-  const content = useMemo(() => {
-    const content = value ? JSON.parse(value) : EMPTY_EDITOR_VALUE;
-    // Editor.js behaves weird with empty array as an initial value
-    if (content?.blocks?.length === 0) {
-      content.blocks.push(EMPTY_EDITOR_BLOCK);
-    }
-
-    return content;
-  }, [value]);
 
   const handleChange = useCallback(async () => {
-    const data = (await editorRef.current?.save()) as OutputData;
+    const data = await editorRef.current?.save();
     onChange?.(JSON.stringify(data));
   }, [onChange]);
 
@@ -52,32 +51,16 @@ export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
 
   const init = useCallback(() => {
     const editor = new EditorJS({
-      holder: id,
-      data: content,
+      holder: EDITOR_ID,
+      data: value ? JSON.parse(value) : undefined,
       onReady: () => {
         editorRef.current = editor;
         onReady?.();
       },
       onChange: handleChange,
-      autofocus: true,
-      tools: {
-        checkList: CheckList,
-        link: Link,
-        image: {
-          class: ImageTool,
-          config: {
-            endpoints: {
-              byFile: '/api/files',
-            },
-          },
-        },
-        strikethrough: {
-          class: Strikethrough,
-          shortcut: 'CTRL+SHIFT+X',
-        },
-      },
+      tools: EDITOR_TOOLS,
     });
-  }, [content, handleChange, id, onReady]);
+  }, [value, handleChange, onReady]);
 
   useEffect(() => {
     if (!editorRef.current) {
@@ -93,5 +76,5 @@ export function Editor({ value, onChange, onReady, onPressCtrlS }: Props) {
     };
   }, [init]);
 
-  return <div onKeyDown={handleKeyDown} id={id} />;
+  return <div onKeyDown={handleKeyDown} id='editor' />;
 }

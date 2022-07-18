@@ -2,7 +2,7 @@ import React from 'react';
 import PageHeader from '@atlaskit/page-header';
 
 import { BaseLayout } from '@/components';
-import { NotepadSettingsWidget, useLocalization } from '@/features';
+import { NotepadSettings, useLocalization } from '@/features';
 
 import { localization } from '../localization';
 import { SettingsMenu } from '../components';
@@ -14,7 +14,7 @@ export function NotepadSettingsPage() {
     <BaseLayout leftSidebar={<SettingsMenu />}>
       <div className='mx-8'>
         <PageHeader>{t('Notepad')}</PageHeader>
-        <NotepadSettingsWidget />
+        <NotepadSettings />
       </div>
     </BaseLayout>
   );

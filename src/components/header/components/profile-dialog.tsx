@@ -3,7 +3,7 @@ import { LinkItem, MenuGroup, Section } from '@atlaskit/menu';
 
 import { useAuth, useLocalization } from '@/features';
 
-import { localization } from './localization';
+import { localization } from '../localization';
 
 export function ProfileDialog() {
   const { userId } = useAuth();

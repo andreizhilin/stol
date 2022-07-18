@@ -4,8 +4,7 @@ describe('common settings', () => {
   beforeEach(() => {
     cy.signin();
     cy.visit('https://127.0.0.1:3000/settings/');
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
+    cy.waitSkeleton('[data-testid="header-skeleton"]');
   });
 
   afterEach(() => {
@@ -50,8 +49,7 @@ describe('common settings', () => {
     cy.contains('Блокнот').should('exist');
 
     cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
+    cy.waitSkeleton('[data-testid="header-skeleton"]');
     cy.get('[data-testid="locale-en"]').should('not.be.disabled');
     cy.get('[data-testid="locale-ru"]').should('be.disabled');
     cy.contains('System').should('not.exist');
@@ -76,8 +74,7 @@ describe('common settings', () => {
     cy.contains('Блокнот').should('not.exist');
 
     cy.reload();
-    cy.get('[data-testid="header-skeleton"]').should('exist');
-    cy.get('[data-testid="header-skeleton"]').should('not.exist');
+    cy.waitSkeleton('[data-testid="header-skeleton"]');
     cy.get('[data-testid="locale-en"]').should('be.disabled');
     cy.get('[data-testid="locale-ru"]').should('not.be.disabled');
     cy.contains('System').should('exist');

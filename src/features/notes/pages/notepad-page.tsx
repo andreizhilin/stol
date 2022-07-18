@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { ButtonGroup, LoadingButton } from '@atlaskit/button';
 
-import { DatePickerButton } from '@/components';
+import { DatePickerButton, PageWrapper } from '@/components';
 import { useInterval } from '@/services';
 import { useLocalization } from '@/features';
 
 import { useGetNoteByDateQuery, useGetNotesSettingsQuery, useUpdateNoteMutation } from '../hooks';
-import { NotepadWidget } from '../components';
+import { Notepad } from '../widgets';
 import { localization } from '../localization';
 import { NotepadPageSkeleton } from './notepad-page-skeleton';
 
@@ -29,8 +29,26 @@ export function NotepadPage() {
   const { data: notesSettings } = useGetNotesSettingsQuery();
   const { t, dateFormat } = useLocalization(localization);
 
+  const handleDateChange = (date: Date) => {
+    setIsPristine(true);
+    setSelectedDate(date);
+    setIsNotepadReady(false);
+    setChangedNoteText(DEFAULT_CHANGED_NOTE);
+  };
+
+  const handleNotepadChange = useCallback((note: string) => {
+    setIsPristine(false);
+    setLastChangeDate(new Date());
+    setChangedNoteText(note);
+  }, []);
+
+  const handleNotepadReady = useCallback(() => {
+    setIsNotepadReady(true);
+  }, []);
+
   const saveNote = useCallback(() => {
     if (isPristine) return;
+
     updateNote({
       id: data?.id ?? '',
       date: selectedDate,
@@ -45,23 +63,6 @@ export function NotepadPage() {
     }
   }, [refetch, selectedDate]);
 
-  const handleDateChange = useCallback((date: Date) => {
-    setIsPristine(true);
-    setSelectedDate(date);
-    setIsNotepadReady(false);
-    setChangedNoteText(DEFAULT_CHANGED_NOTE);
-  }, []);
-
-  const handleNotepadChange = useCallback((note: string) => {
-    setIsPristine(false);
-    setLastChangeDate(new Date());
-    setChangedNoteText(note);
-  }, []);
-
-  const handleNotepadReady = useCallback(() => {
-    setIsNotepadReady(true);
-  }, []);
-
   useInterval(() => {
     if (!notesSettings?.isAutoSaveEnabled) return;
     if (dayjs().diff(dayjs(lastChangeDate), 'second') < AUTO_SAVE_INTERVAL_SECONDS) return;
@@ -70,7 +71,7 @@ export function NotepadPage() {
   }, AUTO_SAVE_INTERVAL_SECONDS * 1000);
 
   return (
-    <div data-testid='notepad-page' className='flex flex-col w-full max-w-screen-md p-5 md:ml-40'>
+    <PageWrapper testId='notepad-page'>
       {isNotepadReady ? (
         <div className='my-8'>
           <div className='mb-4 text-2xl'>{dayjs(selectedDate).format(dateFormat)}</div>
@@ -90,12 +91,12 @@ export function NotepadPage() {
       ) : (
         <NotepadPageSkeleton />
       )}
-      <NotepadWidget
+      <Notepad
         date={selectedDate}
         onChange={handleNotepadChange}
         onReady={handleNotepadReady}
         onPressCtrlS={saveNote}
       />
-    </div>
+    </PageWrapper>
   );
 }

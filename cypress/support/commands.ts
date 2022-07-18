@@ -10,3 +10,14 @@ Cypress.Commands.add('signin', () => {
   // add small delay to ensure that loading states will be visible/testable
   cy.setCookie('e2e-delay', '200');
 });
+
+Cypress.Commands.add('waitSkeleton', (skeletonSelector: string) => {
+  cy.get(skeletonSelector).should('exist');
+  cy.get(skeletonSelector).should('not.exist');
+});
+
+Cypress.Commands.add('setLocale', (locale: 'ru' | 'en') => {
+  cy.visit('https://127.0.0.1:3000/settings');
+  cy.waitSkeleton('[data-testid="header-skeleton"]');
+  cy.get(`[data-testid="locale-${locale}"]`).click();
+});

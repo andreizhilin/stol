@@ -1,8 +1,10 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { useAuth, useGetSettingsQuery } from '@/features';
-import { HeaderSkeleton } from '@/components';
+import { useGetSettingsQuery } from '@/features';
+import { Header } from '@/components';
+
+import { useAuth } from '../hooks';
 
 type Props = {
   children: JSX.Element;
@@ -13,7 +15,7 @@ export function ProtectedRoute({ children }: Props) {
   const { isLoading: areSettingsLoading } = useGetSettingsQuery();
 
   if (isAuthLoading || areSettingsLoading) {
-    return <HeaderSkeleton />;
+    return <Header.Skeleton />;
   }
 
   if (isAuthenticated) {

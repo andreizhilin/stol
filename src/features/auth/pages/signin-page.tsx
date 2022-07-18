@@ -2,12 +2,12 @@ import React from 'react';
 
 import { CenteredLayout } from '@/components';
 
-import { SigninWidget } from '../components/signin-widget';
+import { Signin } from '../widgets/signin';
 
 export function SigninPage() {
   return (
     <CenteredLayout>
-      <SigninWidget />
+      <Signin />
     </CenteredLayout>
   );
 }

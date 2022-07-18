@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import CalendarFilledIcon from '@atlaskit/icon/glyph/calendar-filled';
 import Button from '@atlaskit/button';
@@ -19,21 +19,18 @@ export function DatePickerButton({ selectedDate, onSelect, label }: Props) {
   const { locale, weekStartDay } = useLocalization();
   const [isCalendarOpen, setIsCalendarOpen] = useState(DEFAULT_IS_CALENDAR_OPEN);
 
-  const handleSelectDateClick = useCallback(() => {
+  const handleSelectDateClick = () => {
     setIsCalendarOpen(true);
-  }, []);
+  };
 
-  const handleCalendarClose = useCallback(() => {
+  const handleCalendarClose = () => {
     setIsCalendarOpen(false);
-  }, []);
+  };
 
-  const handleSelect = useCallback(
-    (date: SelectEvent) => {
-      setIsCalendarOpen(false);
-      onSelect(new Date(date.iso));
-    },
-    [onSelect],
-  );
+  const handleSelect = (date: SelectEvent) => {
+    setIsCalendarOpen(false);
+    onSelect(new Date(date.iso));
+  };
 
   return (
     <Popup

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Profile } from '@atlaskit/atlassian-navigation';
 import Avatar from '@atlaskit/avatar';
 import Popup from '@atlaskit/popup';
@@ -6,7 +6,7 @@ import Popup from '@atlaskit/popup';
 import { useLocalization } from '@/features';
 
 import { ProfileDialog } from './profile-dialog';
-import { localization } from './localization';
+import { localization } from '../localization';
 
 const DEFAULT_IS_PROFILE_DIALOG_OPEN = false;
 
@@ -14,13 +14,13 @@ export function ProfileWidget() {
   const { t } = useLocalization(localization);
   const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(DEFAULT_IS_PROFILE_DIALOG_OPEN);
 
-  const handleProfileClick = useCallback(() => {
+  const handleProfileClick = () => {
     setIsProfileDialogOpen(true);
-  }, []);
+  };
 
-  const handleProfileDialogClose = useCallback(() => {
+  const handleProfileDialogClose = () => {
     setIsProfileDialogOpen(false);
-  }, []);
+  };
 
   return (
     <Popup

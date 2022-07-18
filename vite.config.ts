@@ -24,6 +24,9 @@ export default defineConfig(({ mode }) => {
       globals: true,
       environment: 'jsdom',
     },
+    define: {
+      'process.env': {},
+    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
