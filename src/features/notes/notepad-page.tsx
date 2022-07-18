@@ -14,11 +14,12 @@ export function NotepadPage() {
 
   const saveNote = useCallback(() => {
     updateNote({
+      id: data?.id ?? '',
       date: selectedDate,
       text: note ?? '',
     });
     setIsPristine(true);
-  }, [note, selectedDate, updateNote]);
+  }, [data?.id, note, selectedDate, updateNote]);
 
   const handleChangeEditor = useCallback(
     (changedNote: string) => {
