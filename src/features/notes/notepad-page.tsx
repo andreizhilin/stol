@@ -1,49 +1,74 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
 import { Datepicker, Editor, SaveButton, Spinner } from '@/components';
 
 import { useGetNoteByDateQuery, useUpdateNoteMutation } from './api';
 
+const DEFAULT_SELECTED_DATE = new Date();
+const DEFAULT_CHANGED_NOTE = undefined;
+const DEFAULT_IS_PRISTINE = true;
+const DEFAULT_IS_EDITOR_READY = false;
+
 export function NotepadPage() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const { data, isLoading, isFetching } = useGetNoteByDateQuery(dayjs(selectedDate).format('YYYY-MM-DD'));
-  const [note, setNote] = useState(data?.text);
-  const [isPristine, setIsPristine] = useState(true);
+  const [selectedDate, setSelectedDate] = useState(DEFAULT_SELECTED_DATE);
+  const [changedNote, setChangedNote] = useState<string | undefined>(DEFAULT_CHANGED_NOTE);
+  const [isPristine, setIsPristine] = useState(DEFAULT_IS_PRISTINE);
+  const [isEditorReady, setIsEditorReady] = useState(DEFAULT_IS_EDITOR_READY);
   const [updateNote, { isLoading: isUpdating }] = useUpdateNoteMutation();
+  const { data, isFetching, refetch } = useGetNoteByDateQuery(dayjs(selectedDate).format('YYYY-MM-DD'));
 
   const saveNote = useCallback(() => {
     updateNote({
       id: data?.id ?? '',
       date: selectedDate,
-      text: note ?? '',
+      text: changedNote ?? '',
     });
     setIsPristine(true);
-  }, [data?.id, note, selectedDate, updateNote]);
+  }, [data?.id, changedNote, selectedDate, updateNote]);
 
-  const handleChangeEditor = useCallback(
-    (changedNote: string) => {
-      setIsPristine(false);
-      setNote(changedNote);
-    },
-    [setIsPristine],
-  );
+  const handleDateChange = useCallback((date: Date) => {
+    setIsPristine(DEFAULT_IS_PRISTINE);
+    setSelectedDate(date);
+    setIsEditorReady(DEFAULT_IS_EDITOR_READY);
+    setChangedNote(DEFAULT_CHANGED_NOTE);
+  }, []);
 
-  const handleClickSave = useCallback(() => {
+  const handleEditorChange = useCallback((note: string) => {
+    setIsPristine(false);
+    setChangedNote(note);
+  }, []);
+
+  const handleEditorReady = useCallback(() => {
+    setIsEditorReady(true);
+  }, []);
+
+  const handleSaveClick = useCallback(() => {
     saveNote();
   }, [saveNote]);
 
+  useEffect(() => {
+    if (selectedDate) {
+      refetch();
+    }
+  }, [selectedDate, refetch]);
+
   return (
-    <div data-test='notepad-page' className='flex w-full max-w-screen-md p-5'>
-      <div className='w-full shadow bg-white p-5 md:p-10'>
-        <div className='flex justify-center font-bold md:pb-5 '>
-          <Datepicker value={selectedDate} onChange={setSelectedDate} />
-          {!isPristine && <SaveButton onClick={handleClickSave} />}
-          {(isLoading || isUpdating || isFetching) && <Spinner />}
+    <div data-test='notepad-page' className='flex w-full max-w-screen-md'>
+      <div className='w-full p-5 text-lg'>
+        <div className='flex justify-center font-bold md:pb-5'>
+          {isEditorReady && <Datepicker value={selectedDate} onChange={handleDateChange} />}
+          {!isPristine && <SaveButton onClick={handleSaveClick} />}
+          {(isUpdating || isFetching) && <Spinner />}
         </div>
-        <div className={isLoading || isFetching ? 'hidden' : ''}>
-          <Editor value={data?.text} onChange={handleChangeEditor} onPressCtrlS={saveNote} />
-        </div>
+        {!isFetching && (
+          <Editor
+            value={data?.text}
+            onChange={handleEditorChange}
+            onReady={handleEditorReady}
+            onPressCtrlS={saveNote}
+          />
+        )}
       </div>
     </div>
   );
