@@ -1,14 +1,14 @@
-import { Layout } from '@/components';
+import { BaseLayout } from '@/components';
 import { NotepadSettingsWidget } from '@/features';
 
 import { SettingsLayout } from '../components';
 
 export function NotepadSettingsPage() {
   return (
-    <Layout>
+    <BaseLayout>
       <SettingsLayout>
         <NotepadSettingsWidget />
       </SettingsLayout>
-    </Layout>
+    </BaseLayout>
   );
 }

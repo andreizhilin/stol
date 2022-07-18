@@ -7,7 +7,7 @@ type Props = {
   children: ReactNode;
 };
 
-export function Layout({ children }: Props) {
+export function BaseLayout({ children }: Props) {
   return (
     <div className='flex flex-col min-h-screen md:flex-row dark:bg-gray-900 dark:text-white'>
       <Sidebar />

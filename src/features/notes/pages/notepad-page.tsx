@@ -1,11 +1,11 @@
-import { Layout } from '@/components';
+import { BaseLayout } from '@/components';
 
 import { NotepadWidget } from '../components/notepad-widget';
 
 export function NotepadPage() {
   return (
-    <Layout>
+    <BaseLayout>
       <NotepadWidget />
-    </Layout>
+    </BaseLayout>
   );
 }
