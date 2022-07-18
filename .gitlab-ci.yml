@@ -7,50 +7,42 @@ cache:
 
 before_script:  
   - apt-get update -qq && apt-get install
+  - yarn config set cache-folder .yarn
+  - yarn install 
 
 stages:
   - lint
-  - unit-test
-  # TODO: Make e2e tests more stable
-  # - e2e-test
+  - test
   - build
+  - deploy
 
 Linting:
   stage: lint
-  tags:
-    - node
-  before_script: 
-    - yarn config set cache-folder .yarn
-    - yarn install 
   script:
-    - yarn test run
+    - yarn lint
 
 Unit Test:
-  stage: unit-test
-  tags:
-    - node
-  before_script: 
-    - yarn config set cache-folder .yarn
-    - yarn install 
+  stage: test
   script:
     - yarn test run
 
-E2E Test:
-  stage: e2e-test
-  tags:
-    - node
-  before_script: 
-    - yarn config set cache-folder .yarn
-    - yarn install 
-  script:
-    - yarn start & yarn test:e2e
+# TODO: Make e2e tests more stable
+# E2E Test:
+#   stage: test
+#   script:
+#     - yarn start & yarn test:e2e
 
 Build:
   stage: build
-  tags:
-    - node
-  before_script: 
-    - yarn config set cache-folder .yarn
-    - yarn install 
   script:
     - yarn build
+  artifacts:
+    paths:
+      - 'dist'
+
+Deploy Prod:
+  stage: deploy
+  script:
+    - yarn deploy
+  only:
+    - feature/cicd
