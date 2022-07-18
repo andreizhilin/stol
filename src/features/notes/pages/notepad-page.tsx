@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { ButtonGroup, LoadingButton } from '@atlaskit/button';
 
-import { BaseLayout, DatePickerButton } from '@/components';
+import { DatePickerButton } from '@/components';
 import { useInterval } from '@/services';
 import { useLocalization } from '@/features';
 
@@ -16,7 +16,7 @@ const DEFAULT_CHANGED_NOTE = undefined;
 const DEFAULT_LAST_CHANGE_DATE = new Date();
 const DEFAULT_IS_PRISTINE = true;
 const DEFAULT_IS_NOTEPAD_READY = false;
-const AUTO_SAVE_INTERVAL_SECONDS = 10;
+const AUTO_SAVE_INTERVAL_SECONDS = 3;
 
 export function NotepadPage() {
   const [selectedDate, setSelectedDate] = useState(DEFAULT_SELECTED_DATE);
@@ -70,34 +70,32 @@ export function NotepadPage() {
   }, AUTO_SAVE_INTERVAL_SECONDS * 1000);
 
   return (
-    <BaseLayout>
-      <div data-testid='notepad-page' className='flex flex-col w-full max-w-screen-md p-5 md:ml-40'>
-        {isNotepadReady ? (
-          <div className='my-8'>
-            <div className='mb-4 text-2xl'>{dayjs(selectedDate).format(dateFormat)}</div>
-            <ButtonGroup>
-              <DatePickerButton selectedDate={selectedDate} onSelect={handleDateChange} label={t('SelectDate')} />
-              <LoadingButton
-                testId='save-button'
-                isLoading={isUpdating || isFetching}
-                isDisabled={isPristine}
-                appearance='primary'
-                onClick={saveNote}
-              >
-                {t('Save')}
-              </LoadingButton>
-            </ButtonGroup>
-          </div>
-        ) : (
-          <NotepadPageSkeleton />
-        )}
-        <NotepadWidget
-          date={selectedDate}
-          onChange={handleNotepadChange}
-          onReady={handleNotepadReady}
-          onPressCtrlS={saveNote}
-        />
-      </div>
-    </BaseLayout>
+    <div data-testid='notepad-page' className='flex flex-col w-full max-w-screen-md p-5 md:ml-40'>
+      {isNotepadReady ? (
+        <div className='my-8'>
+          <div className='mb-4 text-2xl'>{dayjs(selectedDate).format(dateFormat)}</div>
+          <ButtonGroup>
+            <DatePickerButton selectedDate={selectedDate} onSelect={handleDateChange} label={t('SelectDate')} />
+            <LoadingButton
+              testId='save-button'
+              isLoading={isUpdating || isFetching}
+              isDisabled={isPristine}
+              appearance='primary'
+              onClick={saveNote}
+            >
+              {t('Save')}
+            </LoadingButton>
+          </ButtonGroup>
+        </div>
+      ) : (
+        <NotepadPageSkeleton />
+      )}
+      <NotepadWidget
+        date={selectedDate}
+        onChange={handleNotepadChange}
+        onReady={handleNotepadReady}
+        onPressCtrlS={saveNote}
+      />
+    </div>
   );
 }

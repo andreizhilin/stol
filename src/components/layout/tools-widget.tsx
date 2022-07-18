@@ -28,7 +28,7 @@ export function ToolsWidget() {
       content={() => <ToolsDialog />}
       isOpen={isToolsDialogOpen}
       trigger={triggerProps => (
-        <PrimaryDropdownButton {...triggerProps} onClick={handleToolsClick}>
+        <PrimaryDropdownButton {...triggerProps} onClick={handleToolsClick} className='pt-px'>
           {t('Tools')}
         </PrimaryDropdownButton>
       )}

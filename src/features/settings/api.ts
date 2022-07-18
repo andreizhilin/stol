@@ -32,7 +32,6 @@ export const settingsApi = createApi({
           patchResult.undo();
         }
       },
-      invalidatesTags: () => [{ type: 'Settings' }],
     }),
   }),
 });

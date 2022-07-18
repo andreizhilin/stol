@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import { ProtectedRoute } from '@/features';
+import { BaseLayout } from '@/components';
 
 import { NotepadPage } from './pages';
 
@@ -12,7 +13,9 @@ export function getNotesRoutes() {
         path='/notepad'
         element={
           <ProtectedRoute>
-            <NotepadPage />
+            <BaseLayout>
+              <NotepadPage />
+            </BaseLayout>
           </ProtectedRoute>
         }
       />
